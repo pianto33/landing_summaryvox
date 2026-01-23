@@ -33,7 +33,6 @@ export {
   createSubscriptionSchema,
   createIntentSchema,
   checkCustomerSchema,
-  sendEmailSchema,
   checkSubscriptionsSchema,
   
   // Tipos
@@ -41,7 +40,6 @@ export {
   type CreateSubscriptionInput,
   type CreateIntentInput,
   type CheckCustomerInput,
-  type SendEmailInput,
   type CheckSubscriptionsInput,
   type ValidationResult,
   

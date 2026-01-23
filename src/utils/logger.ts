@@ -1,4 +1,3 @@
-import { notifySystemError, notifyPaymentSuccess } from '@/services/slackService';
 import { betterStack } from '@/monitoring/services/betterStackService';
 import { getShortSessionId } from './sessionId';
 
@@ -183,7 +182,8 @@ class Logger {
   clearCache() {
     this.logCache.clear();
   }
-  private async sendToSlack(level: LogLevel, message: string, metadata?: LogMetadata) {
+
+  private async sendToBetterStack(level: LogLevel, message: string, metadata?: LogMetadata) {
     // Si estamos en el cliente, enviar a través de la API
     if (typeof window !== 'undefined') {
       try {
@@ -217,17 +217,9 @@ class Logger {
       const emoji = levelEmoji[level] || '📝';
       const formattedMessage = `${emoji} [${level.toUpperCase()}] ${message}`;
 
-      // Para errores, usar notifySystemError
-      if (level === 'error') {
-        await notifySystemError(
-          'Application Error',
-          message,
-          metadata
-        );
-      } else {
-        // Para otros niveles, enviar a Better Stack (no a Slack)
-        await betterStack.sendLog(level === 'warn' ? 'warn' : 'info', formattedMessage, metadata);
-      }
+      // Enviar a Better Stack
+      const logLevel = level === 'error' ? 'error' : level === 'warn' ? 'warn' : 'info';
+      await betterStack.sendLog(logLevel, formattedMessage, metadata);
     } catch (logError) {
       // Si falla Better Stack, solo logear en consola (evitar loop infinito)
       console.error('[Logger] Error enviando a Better Stack:', logError);
@@ -240,7 +232,7 @@ class Logger {
     
     // Log no se deduplica por defecto, pero puedes cambiarlo
     if (!this.isDuplicate('log', message, enriched)) {
-      this.sendToSlack('log', message, enriched);
+      this.sendToBetterStack('log', message, enriched);
     }
   }
 
@@ -249,7 +241,7 @@ class Logger {
     const enriched = enrichMetadata(metadata);
     
     if (!this.isDuplicate('info', message, enriched)) {
-      this.sendToSlack('info', message, enriched);
+      this.sendToBetterStack('info', message, enriched);
     }
   }
 
@@ -278,7 +270,7 @@ class Logger {
     });
     
     if (!this.isDuplicate('warn', message, warnMetadata)) {
-      this.sendToSlack('warn', message, warnMetadata);
+      this.sendToBetterStack('warn', message, warnMetadata);
     }
   }
 
@@ -292,17 +284,26 @@ class Logger {
     });
 
     if (!this.isDuplicate('error', message, errorMetadata)) {
-      this.sendToSlack('error', message, errorMetadata);
+      this.sendToBetterStack('error', message, errorMetadata);
     }
   }
 
   debug(message: string, metadata?: LogMetadata) {
     console.debug(message, metadata || '');
-    // Debug no se envía a Slack por defecto para no saturar
+    // Debug no se envía a Better Stack por defecto para no saturar
   }
 
   // Método especial para pagos exitosos
   async paymentSuccess(email: string, amount: number, currency: string, customerId?: string) {
+    const metadata = enrichMetadata({
+      email,
+      amount,
+      currency,
+      customerId,
+    });
+    
+    const message = `✅ Pago exitoso: ${email} - ${(amount / 100).toFixed(2)} ${currency.toUpperCase()}`;
+    
     // Si estamos en el cliente, enviar a través de la API
     if (typeof window !== 'undefined') {
       try {
@@ -313,13 +314,8 @@ class Logger {
           },
           body: JSON.stringify({
             level: 'payment-success',
-            message: email,
-            metadata: enrichMetadata({
-              email,
-              amount,
-              currency,
-              customerId,
-            }),
+            message,
+            metadata,
           }),
         });
       } catch (fetchError) {
@@ -328,7 +324,8 @@ class Logger {
       return;
     }
 
-    notifyPaymentSuccess(email, amount, currency, customerId);
+    // En servidor, enviar directamente a Better Stack
+    await betterStack.info(message, metadata);
   }
 }
 
@@ -337,4 +334,3 @@ export const logger = new Logger();
 
 // Helpers para compatibilidad con console
 export default logger;
-

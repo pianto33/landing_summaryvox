@@ -6,7 +6,6 @@ import { GENERAL, GTM_EVENTS } from "@/constants";
 import { generateAutoLoginToken } from "@/api/voxpages";
 import { sendEvent } from "@/utils/gtm";
 import { useStripeData } from "@/hooks/useStripeData";
-import { sendEmail } from "@/api/send-email";
 import { logger } from "@/utils/logger";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
@@ -66,9 +65,6 @@ function ErrorPage() {
           const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://voxpages.com";
           const link = `${platformUrl}/${lng}/auto-login?token=${encodeURIComponent(token)}`;
           setMagicLink(link);
-          
-          // Enviar email con el token (la API generará las URLs)
-          sendEmail({ name, email, token, amount, currency, lng, customerId: finalCustomerId });
         } catch (error) {
           logger.error("Error getting magic link", error, {
             email,

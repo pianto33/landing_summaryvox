@@ -1,4 +1,4 @@
-import { sendSlackNotification } from '@/services/slackService';
+import { betterStack } from './betterStackService';
 
 interface SystemMetrics {
   memory: {
@@ -133,7 +133,7 @@ export class PerformanceMonitor {
   }
 
   private async reportSlowResponse(metrics: PerformanceMetrics) {
-    const message = `🐌 *Respuesta Lenta Detectada*\n⏱️ Duración: *${metrics.duration}ms*`;
+    const message = `🐌 Respuesta Lenta Detectada - ${metrics.endpoint}`;
     const metadata = {
       Endpoint: metrics.endpoint,
       Método: metrics.method,
@@ -143,11 +143,11 @@ export class PerformanceMonitor {
       Timestamp: new Date(metrics.timestamp).toLocaleString('es-ES'),
     };
 
-    await sendSlackNotification('monitoring', message, metadata);
+    await betterStack.warn(message, metadata);
   }
 
   private async reportServerError(metrics: PerformanceMetrics) {
-    const message = `🔴 *Error del Servidor*\n❌ Código: *${metrics.statusCode}*`;
+    const message = `🔴 Error del Servidor - ${metrics.endpoint} (${metrics.statusCode})`;
     const metadata = {
       Endpoint: metrics.endpoint,
       Método: metrics.method,
@@ -156,7 +156,7 @@ export class PerformanceMonitor {
       Timestamp: new Date(metrics.timestamp).toLocaleString('es-ES'),
     };
 
-    await sendSlackNotification('red-alert', message, metadata);
+    await betterStack.error(message, metadata);
   }
 }
 
@@ -183,7 +183,7 @@ export const checkSystemHealth = async (): Promise<void> => {
     // Solo alertar si la memoria usada es anormalmente alta (> 150MB absolutos)
     // o si el porcentaje es extremo (> 98%) Y la memoria total es mayor a lo normal
     if (metrics.memory.used > 150 || (metrics.memory.percentage > 98 && metrics.memory.total > 50)) {
-      const message = `⚠️ *Alto Uso de Memoria Detectado (Serverless)*\n📊 ${metrics.memory.used}MB utilizados`;
+      const message = `⚠️ Alto Uso de Memoria Detectado (Serverless) - ${metrics.memory.used}MB`;
       const metadata = {
         'Memoria Usada': `${metrics.memory.used}MB`,
         'Memoria Total': `${metrics.memory.total}MB`,
@@ -193,14 +193,14 @@ export const checkSystemHealth = async (): Promise<void> => {
         Timestamp: new Date(metrics.timestamp).toLocaleString('es-ES'),
       };
 
-      await sendSlackNotification('monitoring', message, metadata);
+      await betterStack.warn(message, metadata);
     }
     return;
   }
 
   // Para entornos no-serverless (tradicionales), usar el umbral de 95%
   if (metrics.memory.percentage > 95) {
-    const message = `⚠️ *Alto Uso de Memoria Detectado*\n📊 ${metrics.memory.percentage}% utilizado`;
+    const message = `⚠️ Alto Uso de Memoria Detectado - ${metrics.memory.percentage}%`;
     const metadata = {
       'Memoria Usada': `${metrics.memory.used}MB`,
       'Memoria Total': `${metrics.memory.total}MB`,
@@ -209,7 +209,7 @@ export const checkSystemHealth = async (): Promise<void> => {
       Timestamp: new Date(metrics.timestamp).toLocaleString('es-ES'),
     };
 
-    await sendSlackNotification('monitoring', message, metadata);
+    await betterStack.warn(message, metadata);
   }
 };
 
@@ -224,7 +224,7 @@ export const createApiMonitor = (endpoint: string, method: string = 'GET') => {
  * Hook para reportar errores del cliente
  */
 export const reportClientError = async (error: ErrorMetrics) => {
-  const message = `🔴 *Error del Cliente*\n💥 ${error.message}`;
+  const message = `🔴 Error del Cliente - ${error.message}`;
   const metadata = {
     Error: error.message,
     Stack: error.stack?.substring(0, 200) || 'N/A',
@@ -234,7 +234,7 @@ export const reportClientError = async (error: ErrorMetrics) => {
     Timestamp: new Date().toLocaleString('es-ES'),
   };
 
-  await sendSlackNotification('red-alert', message, metadata);
+  await betterStack.error(message, metadata);
 };
 
 /**
@@ -288,4 +288,3 @@ const monitoringService = {
 };
 
 export default monitoringService;
-

@@ -168,21 +168,6 @@ export const checkCustomerSchema = z.object({
 export type CheckCustomerInput = z.infer<typeof checkCustomerSchema>;
 
 /**
- * POST /api/send-email
- */
-export const sendEmailSchema = z.object({
-  email: emailSchema,
-  name: nameSchema,
-  token: z.string().min(1, 'Token requerido').max(2000, 'Token demasiado largo'),
-  amount: amountSchema,
-  currency: currencySchema,
-  lng: localeSchema.optional().default('es'),
-  customerId: stripeCustomerIdSchema.optional(),
-});
-
-export type SendEmailInput = z.infer<typeof sendEmailSchema>;
-
-/**
  * POST /api/check-subscriptions
  */
 export const checkSubscriptionsSchema = z.object({
@@ -248,17 +233,11 @@ export function formatZodError(error: z.ZodError): string {
     .join(', ');
 }
 
-// ============================================================================
-// Modo Warn (permite continuar pero alerta a Slack)
-// ============================================================================
-
-import { sendSlackNotification } from '@/services/slackService';
-
 /**
  * Valida datos con un schema de Zod en modo WARN
  * 
  * Si la validación falla:
- * - Envía alerta a Slack (red-alert)
+ * - Loguea el error en consola
  * - Retorna los datos originales sin validar (permite continuar)
  * 
  * Útil para rollout gradual sin afectar usuarios.
@@ -282,26 +261,17 @@ export async function validateWarn<T>(
     };
   }
   
-  // Validación falló - alertar pero continuar
+  // Validación falló - loguear pero continuar
   const errorDetails = result.error.issues.map(issue => ({
     field: issue.path.join('.'),
     message: issue.message,
     code: issue.code,
   }));
   
-  // Enviar alerta a Slack (no bloquear si falla)
-  sendSlackNotification('red-alert', '⚠️ *Validación Fallida (Modo Warn)*', {
-    Endpoint: endpoint,
-    IP: context?.ip || 'unknown',
-    URL: context?.url || 'unknown',
-    'Errores': errorDetails.map(e => `${e.field}: ${e.message}`).join('; '),
-    'Datos recibidos': JSON.stringify(data).substring(0, 500), // Truncar para no enviar mucho
-    Timestamp: new Date().toLocaleString('es-ES', { timeZone: 'America/Argentina/Buenos_Aires' }),
-  }).catch((err) => {
-    console.error('[Validation] Error enviando alerta a Slack:', err);
+  console.warn(`[Validation] Endpoint ${endpoint} recibió datos inválidos:`, errorDetails, {
+    ip: context?.ip || 'unknown',
+    url: context?.url || 'unknown',
   });
-  
-  console.warn(`[Validation] Endpoint ${endpoint} recibió datos inválidos:`, errorDetails);
   
   // Retornar datos originales (sin validar) para permitir continuar
   return {

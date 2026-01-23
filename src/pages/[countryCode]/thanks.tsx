@@ -9,7 +9,6 @@ import { GTM_EVENTS } from "@/constants";
 import { extractTrackingParams, saveTrackingParams } from "@/utils/trackingParams";
 import Button from "@/components/Button";
 import Header from "@/components/Header";
-import { sendEmail } from "@/api/send-email";
 import { logger } from "@/utils/logger";
 import Script from "next/script";
 import styles from "@/styles/Thanks.module.css";
@@ -152,16 +151,7 @@ function ThanksPage() {
                 setMagicLink(link);
                 setIsLoading(false);
                 
-                // Enviar email con el token (la API generará las URLs)
-                logger.info("Thanks page: enviando email de bienvenida", {
-                    email,
-                    name,
-                    amount,
-                    currency,
-                    lng,
-                });
-                await sendEmail({ name, email, token, amount, currency, lng, customerId: finalCustomerId });
-                logger.info("Thanks page: email de bienvenida enviado exitosamente", {
+                logger.info("Thanks page: magic link generado exitosamente", {
                     email,
                 });
                 
@@ -192,20 +182,6 @@ function ThanksPage() {
         })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [lng, amount, currency]); // processingComplete no debe estar en deps para evitar loops
-
-    // useEffect(() => {
-    //     const timer = setInterval(() => {
-    //         setCountdown((prevCountdown) => {
-    //             if (prevCountdown <= 1) {
-    //                 clearInterval(timer);
-    //                 router.push(magicLink);
-    //             }
-    //             return prevCountdown - 1;
-    //         });
-    //     }, 1000);
-
-    //     return () => clearInterval(timer);
-    // }, [magicLink, router]);
 
     return (
         <>

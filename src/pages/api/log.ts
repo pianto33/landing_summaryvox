@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { notifySystemError } from '@/services/slackService';
 import { betterStack } from '@/monitoring/services/betterStackService';
 
 export default async function handler(
@@ -10,7 +9,6 @@ export default async function handler(
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  // Declarar variables fuera del try para que sean accesibles en el catch
   const { level, message, metadata } = req.body;
 
   try {
@@ -29,34 +27,20 @@ export default async function handler(
     };
 
     // Enviar según el nivel
-    if (level === 'payment-success') {
-      // Manejo especial para pagos exitosos
-      const { notifyPaymentSuccess } = await import('@/services/slackService');
-      await notifyPaymentSuccess(
-        metadata.email,
-        metadata.amount,
-        metadata.currency,
-        metadata.customerId
-      );
-    } else if (level === 'error' || level === 'red-alert') {
-      await notifySystemError(
-        metadata?.context || 'Client Error',
-        message,
-        enrichedMetadata
-      );
-    } else {
-      // Logs normales van a Better Stack (no a Slack)
-      const levelEmoji = {
-        log: '📝',
-        info: 'ℹ️',
-        warn: '⚠️',
-        visit: '👁️',
-        click: '🖱️',
-      };
-      const emoji = levelEmoji[level as keyof typeof levelEmoji] || '📝';
-      const logLevel = level === 'warn' ? 'warn' : 'info';
-      await betterStack.sendLog(logLevel, `${emoji} [${level?.toUpperCase() || 'LOG'}] ${message}`, enrichedMetadata);
-    }
+    const levelEmoji = {
+      log: '📝',
+      info: 'ℹ️',
+      warn: '⚠️',
+      error: '🚨',
+      'payment-success': '✅',
+      visit: '👁️',
+      click: '🖱️',
+    };
+    
+    const emoji = levelEmoji[level as keyof typeof levelEmoji] || '📝';
+    const logLevel = level === 'error' ? 'error' : level === 'warn' ? 'warn' : 'info';
+    
+    await betterStack.sendLog(logLevel, `${emoji} [${level?.toUpperCase() || 'LOG'}] ${message}`, enrichedMetadata);
 
     return res.status(200).json({ success: true });
   } catch (error: any) {
@@ -64,4 +48,3 @@ export default async function handler(
     return res.status(500).json({ error: 'Internal server error' });
   }
 }
-
