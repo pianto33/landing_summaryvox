@@ -1,0 +1,26 @@
+.header {
+  width: 100%;
+}
+
+.container {
+  height: 80px;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px;
+}
+
+.imageWrapper {
+  flex: 1;
+  position: relative;
+  height: 80px;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-height: 830px) {
+  .container {
+    margin: 15px 30px;
+  }
+}

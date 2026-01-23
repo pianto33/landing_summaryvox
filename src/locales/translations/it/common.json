@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "title": "VoxPages",
+    "description": "Storie che restano con te"
+  },
+  "welcome_intro": "Benvenuto su <b>VoxPages</b>, la tua destinazione definitiva per riassunti di libri in formato audio. Goditi l'accesso illimitato a oltre 1000 riassunti di libri, raccomandazioni personalizzate, narrazione professionale e la capacità di imparare in movimento.",
+  "online_activation": "Attivazione online",
+  "accessIn3Steps": "Accedi in 3 semplici passaggi",
+  "step1": "Iscriviti",
+  "step2": "Scarica l'app",
+  "step3": "Goditi",
+  "subscribe": "Continua",
+  "email_placeholder": "tuo@email.com",
+  "processing": "Elaborazione...",
+  "enjoy_free_trial": "Accedi a tutti i contenuti gratuitamente durante il primo giorno. Dopo, il piano mensile avrà un valore di {{amount}} {{currency}}.",
+  "benefits_premium": "Vantaggi Premium",
+  "benefits_list": [
+    "Accesso illimitato a tutti i riassunti di libri",
+    "Aggiornamenti regolari dei contenuti",
+    "Contenuti esclusivi per abbonati",
+    "Disponibile su più dispositivi",
+    "Esperienza 100% sicura e senza pubblicità",
+    "Scarica gli audio che preferisci",
+    "Priorità nei nuovi aggiornamenti",
+    "Controlli audio avanzati",
+    "Molto di più..."
+  ],
+  "error": {
+    "email": "Non è stata inserita un'email.",
+    "stripe": "Stripe non è pronto. Riprova più tardi.",
+    "submit": "Errore durante l'invio: {{error}}",
+    "create_customer": "Errore nella creazione del cliente.",
+    "confirm_setup": "Errore nella conferma dell'abbonamento: {{error}}",
+    "general": "Errore generale: {{error}}",
+    "create_user": "Errore nella creazione dell'utente. Il tuo abbonamento è stato creato correttamente, contattaci per risolvere il problema.",
+    "default": "Errore. Qualcosa è andato storto, riprova.",
+    "existing_subscription": "Hai già un abbonamento attivo",
+    "existing_customer": "Esiste già un cliente con questa email"
+  },
+  "need_help_subscription": "Hai bisogno di aiuto per iscriverti?",
+  "need_help_client": "Hai bisogno di aiuto per accedere alla piattaforma?",
+  "contact": "Invia rapporto",
+  "retry": "Riprova",
+  "creating_subscription": "Stiamo creando il tuo abbonamento",
+  "thanks": "Grazie per esserti iscritto!",
+  "you_will_be_redirected": "Verrai reindirizzato al sito in {{seconds}} secondi...",
+  "go_to_platform": "Vai al sito",
+  "go_to_platform_manual": "Vai al sito",
+  "": "Dovrai effettuare l'accesso manualmente sulla piattaforma.",
+  "loading": "Caricamento..."
+}

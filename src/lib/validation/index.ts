@@ -1,0 +1,52 @@
+/**
+ * 🔒 Validación de Inputs
+ * 
+ * Uso:
+ * ```typescript
+ * import { validate, createCustomerSchema } from '@/lib/validation';
+ * 
+ * const result = validate(createCustomerSchema, req.body);
+ * if (!result.success) {
+ *   return res.status(400).json({ error: result.error });
+ * }
+ * const { name, email } = result.data;
+ * ```
+ */
+
+export {
+  // Schemas base
+  emailSchema,
+  nameSchema,
+  stripeCustomerIdSchema,
+  stripePriceIdSchema,
+  countryCodeSchema,
+  postalCodeSchema,
+  cityStateSchema,
+  ipAddressSchema,
+  currencySchema,
+  amountSchema,
+  gclidSchema,
+  localeSchema,
+  
+  // Schemas por endpoint
+  createCustomerSchema,
+  createSubscriptionSchema,
+  createIntentSchema,
+  checkCustomerSchema,
+  sendEmailSchema,
+  checkSubscriptionsSchema,
+  
+  // Tipos
+  type CreateCustomerInput,
+  type CreateSubscriptionInput,
+  type CreateIntentInput,
+  type CheckCustomerInput,
+  type SendEmailInput,
+  type CheckSubscriptionsInput,
+  type ValidationResult,
+  
+  // Utilidades
+  validate,
+  validateWarn,
+  formatZodError,
+} from './schemas';

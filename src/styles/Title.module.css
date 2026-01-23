@@ -1,0 +1,6 @@
+.title {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  text-wrap: balance;
+  color: #3A3A3A;
+}

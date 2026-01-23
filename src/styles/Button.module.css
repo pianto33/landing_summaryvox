@@ -1,0 +1,114 @@
+.button {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  border-radius: 22px;
+  background: var(--clr-primary);
+  color: var(--clr-black);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  padding: 0.5rem;
+  min-height: 4.5rem;
+  width: 100%;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  transition: 300ms;
+
+  /* variants */
+  &.primary {
+    background: #f7c948;
+    color: var(--clr-black);
+  }
+
+  &.whatsapp {
+    background: var(--clr-whatsapp);
+    border-color: var(--clr-whatsapp);
+    color: var(--clr-white);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background: var(--clr-gray);
+    border-color: var(--clr-gray);
+    color: color-mix(in srgb, var(--clr-black) 70%, transparent); /* todo: q es esto */
+  }
+}
+
+.button.animate {
+  animation: pulse 2s ease-in-out infinite;
+  overflow: visible; /* ✅ Cambio: permitir que el iframe salga del botón */
+}
+
+.button.animate::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shimmer 3s infinite;
+  z-index: 1;
+  pointer-events: none; /* No bloquear clicks */
+}
+
+.button.animate::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+  background: linear-gradient(
+    45deg,
+    var(--clr-primary),
+    #FFD700,
+    var(--clr-primary),
+    #FFD700
+  );
+  background-size: 300% 300%;
+  animation: gradientShift 3s ease infinite;
+  z-index: -1;
+  filter: blur(8px);
+  opacity: 0.6;
+  pointer-events: none; /* No bloquear clicks */
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(247, 201, 72, 0.4);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px 5px rgba(247, 201, 72, 0.2);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  50%, 100% {
+    left: 100%;
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

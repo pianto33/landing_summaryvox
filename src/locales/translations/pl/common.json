@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "title": "VoxPages",
+    "description": "Historie, które zostają z tobą"
+  },
+  "welcome_intro": "Witamy w <b>VoxPages</b>, Twoim ostatecznym miejscu docelowym dla streszczeń książek w formacie audio. Ciesz się nieograniczonym dostępem do ponad 1000 streszczeń książek, spersonalizowanych rekomendacji, profesjonalnej narracji i możliwości nauki w ruchu.",
+  "online_activation": "Aktywacja online",
+  "accessIn3Steps": "Dostęp w 3 prostych krokach",
+  "step1": "Subskrybuj",
+  "step2": "Pobierz aplikację",
+  "step3": "Ciesz się",
+  "subscribe": "Kontynuuj",
+  "email_placeholder": "twoj@email.pl",
+  "processing": "Przetwarzanie...",
+  "enjoy_free_trial": "Uzyskaj dostęp do wszystkich treści za darmo przez pierwszy dzień. Potem plan miesięczny będzie kosztować {{amount}} {{currency}}.",
+  "benefits_premium": "Korzyści Premium",
+  "benefits_list": [
+    "Nieograniczony dostęp do wszystkich streszczeń książek",
+    "Regularne aktualizacje treści",
+    "Ekskluzywne treści dla subskrybentów",
+    "Dostępne na wielu urządzeniach",
+    "100% bezpieczne i bez reklam",
+    "Pobieraj ulubione nagrania audio",
+    "Priorytet w nowych aktualizacjach",
+    "Zaawansowane kontrolki audio",
+    "Dużo więcej..."
+  ],
+  "error": {
+    "email": "Nie podano adresu e-mail.",
+    "stripe": "Stripe nie jest gotowy. Spróbuj ponownie później.",
+    "submit": "Błąd podczas wysyłania: {{error}}",
+    "create_customer": "Błąd podczas tworzenia klienta.",
+    "confirm_setup": "Błąd podczas potwierdzania subskrypcji: {{error}}",
+    "general": "Błąd ogólny: {{error}}",
+    "create_user": "Błąd podczas tworzenia użytkownika. Twoja subskrypcja została utworzona poprawnie, skontaktuj się z nami, aby rozwiązać ten problem.",
+    "default": "Błąd. Coś poszło nie tak, spróbuj ponownie",
+    "existing_subscription": "Masz już aktywną subskrypcję",
+    "existing_customer": "Klient z tym adresem e-mail już istnieje"
+  },
+  "need_help_subscription": "Potrzebujesz pomocy z subskrypcją?",
+  "need_help_client": "Potrzebujesz pomocy z logowaniem do platformy?",
+  "contact": "Wyślij raport",
+  "retry": "Spróbuj ponownie",
+  "creating_subscription": "Tworzymy Twoją subskrypcję",
+  "thanks": "Dziękujemy za subskrypcję!",
+  "you_will_be_redirected": "Zostaniesz przekierowany na stronę za {{seconds}} sekund...",
+  "go_to_platform": "Przejdź do strony",
+  "go_to_platform_manual": "Przejdź do strony",
+  "": "Będziesz musiał zalogować się ręcznie na platformie.",
+  "loading": "Ładowanie..."
+}

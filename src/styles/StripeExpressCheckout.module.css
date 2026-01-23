@@ -1,0 +1,49 @@
+.checkoutContainer {
+  position: absolute;
+  opacity: 0;
+  overflow: hidden;
+
+  &.loaded {
+    width: 200vw;
+    height: 200vh;
+
+    .checkoutPage {
+      width: 100vw;
+      transform: scale(999);
+      transform-origin: 50% 10%;
+    }
+  }
+}
+
+.error {
+  color: var(--clr-error);
+  font-size: var(--text-sm);
+}
+
+.arrow {
+  margin-inline-start: 1em;
+  display: flex;
+  gap: 0.2rem;
+  
+  & > :nth-child(1),
+  & > :nth-child(2) {
+    animation: slideArrow 1.5s ease-in-out infinite;
+  }
+  & > :nth-child(1) {
+    animation-delay: 0s;
+  }
+  & > :nth-child(2) {
+    animation-delay: 0.3s;
+  }
+}
+
+@keyframes slideArrow {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateX(8px);
+    opacity: 1;
+  }
+}

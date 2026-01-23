@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "title": "VoxPages",
+    "description": "Histórias que ficam contigo"
+  },
+  "welcome_intro": "Bem-vindo ao <b>VoxPages</b>, o teu destino definitivo para resumos de livros em formato de áudio. Desfruta de acesso ilimitado a mais de 1000 resumos de livros, recomendações personalizadas, narração profissional e a capacidade de aprender em movimento.",
+  "online_activation": "Ativação online",
+  "accessIn3Steps": "Acede em 3 passos simples",
+  "step1": "Subscreve",
+  "step2": "Descarrega a app",
+  "step3": "Desfruta",
+  "subscribe": "Continuar",
+  "email_placeholder": "teu@email.com",
+  "processing": "A processar...",
+  "enjoy_free_trial": "Acede a todo o conteúdo grátis durante o primeiro dia. Depois, o plano mensal terá um valor de {{amount}} {{currency}}.",
+  "benefits_premium": "Vantagens Premium",
+  "benefits_list": [
+    "Acesso ilimitado a todos os resumos de livros",
+    "Atualizações regulares de conteúdo",
+    "Conteúdo exclusivo para assinantes",
+    "Disponível em múltiplos dispositivos",
+    "Experiência 100% segura e sem anúncios",
+    "Descarregue os áudios que mais gosta",
+    "Prioridade em novas atualizações",
+    "Controlos avançados de áudio",
+    "Muito mais..."
+  ],
+  "error": {
+    "email": "Nenhum email foi inserido.",
+    "stripe": "O Stripe não está pronto. Tenta novamente mais tarde.",
+    "submit": "Erro ao enviar: {{error}}",
+    "create_customer": "Erro ao criar o cliente.",
+    "confirm_setup": "Erro ao confirmar a subscrição: {{error}}",
+    "general": "Erro geral: {{error}}",
+    "create_user": "Erro ao criar utilizador. A tua subscrição foi criada corretamente, contacta-nos para resolver este problema.",
+    "default": "Erro. Algo correu mal, tenta novamente.",
+    "existing_subscription": "Já tens uma subscrição ativa",
+    "existing_customer": "Já existe um cliente com este email"
+  },
+  "need_help_subscription": "Precisas de ajuda para subscrever?",
+  "need_help_client": "Precisas de ajuda para entrar na plataforma?",
+  "contact": "Enviar relatório",
+  "retry": "Tentar novamente",
+  "creating_subscription": "Estamos a criar a tua subscrição",
+  "thanks": "Obrigado por te subscreveres!",
+  "you_will_be_redirected": "Serás redirecionado para o site em {{seconds}} segundos...",
+  "go_to_platform": "Ir para o site",
+  "go_to_platform_manual": "Ir para o site",
+  "loading": "A carregar..."
+}

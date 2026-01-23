@@ -1,0 +1,14 @@
+.layout {
+  font-family: var(--font-inter);
+  height: 100vh;
+  max-width: 520px;
+  margin-inline: auto;
+  text-align: center;
+  overflow: hidden;
+  color: #3A3A3A;
+
+  & main {
+    height: 100%;
+    overflow: hidden;
+  }
+}

@@ -1,0 +1,243 @@
+.snapContainer {
+    height: 100%;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+.benefitsContainer {
+    min-height: 100%;
+    height: 100%;
+    background: linear-gradient(181deg, #1A1A1A 5.78%, #2D2D2D 95.24%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    flex-shrink: 0;
+}
+
+.welcomeIntro {
+  font-size: var(--text-md);
+  line-height: 1.8;
+  text-align: center;
+  color: #3A3A3A;
+  margin: 2rem 0;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.welcomeIntro b {
+  font-weight: 700;
+  color: var(--clr-secondary);
+}
+
+@media (min-width: 768px) {
+  .welcomeIntro {
+    font-size: 18px;
+    line-height: 1.7;
+  }
+}
+
+.onlineActivation {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  text-align: center;
+  color: var(--clr-secondary);
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+  .onlineActivation {
+  margin-bottom: 1rem;
+  font-size: var(--text-2xl);
+  }
+}
+
+.stepsContainer {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.stepsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem 1rem;
+}
+
+@media (min-width: 768px) {
+  .stepsWrapper {
+    padding: 1rem 0;
+  }
+}
+
+.stepsTitle {
+  text-align: center;
+  color: #3A3A3A;
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+.stepsGrid {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+}
+
+.circleStep {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: #3A3A3A;
+}
+
+@media (min-width: 768px) {
+  .circleStep {
+    width: 80px;
+    height: 80px;
+    font-size: var(--text-2xl);
+  }
+}
+
+.stepText {
+  font-size: var(--text-sm);
+  text-align: center;
+  min-height: 2.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  .stepText {
+    font-size: var(--text-md);
+    min-height: 3rem;
+  }
+}
+
+.trialInfo {
+  font-size: var(--text-xs);
+  text-align: center;
+  text-wrap: pretty;
+  color: #6B7280;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .trialInfo {
+    font-size: var(--text-sm);
+  }
+}
+
+.benefits {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  line-height: 1.6;
+  font-size: var(--text-lg);
+  font-weight: 600;
+  max-width: 480px;
+  margin: 0 auto;
+  color: var(--clr-white);
+
+  & h2 {
+    color: var(--clr-yellow);
+    font-family: var(--font-orbitron);
+    font-size: var(--text-xl);
+    margin-bottom: 1.5rem;
+  }
+
+  & ul {
+    overflow-y: auto;
+  }
+
+  & hr {
+    border: 1px solid var(--clr-yellow);
+  }
+}
+
+@media (max-height: 650px) {
+  .benefits {
+    padding: 1.5rem 1rem;
+    
+    & h2 {
+      margin-bottom: 1rem;
+      font-size: var(--text-lg);
+    }
+  }
+}
+
+.welcomeContainer {
+  padding: 0rem 1.5rem;
+  min-height: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  flex-shrink: 0;
+}
+
+.contentWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  padding: 0 1.5rem;
+}
+
+.onlineActivationContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (max-height: 830px) {
+    .welcomeIntro{
+        margin: 0;
+        font-size: var(--text-sm);
+
+    }
+    .trialInfo {
+        margin: 0.5rem 0;
+    }
+    .onlineActivation {
+        margin-bottom: 0rem;
+    }
+    .stepsWrapper {
+        padding: 0 1rem;
+    }
+    .benefits{
+        font-size: var(--text-sm);
+    }
+}

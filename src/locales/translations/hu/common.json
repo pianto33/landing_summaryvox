@@ -1,0 +1,51 @@
+{
+  "metadata": {
+    "title": "VoxPages",
+    "description": "Történetek, amelyek veled maradnak"
+  },
+  "welcome_intro": "Üdvözöljük a <b>VoxPages</b>-en, a végső rendeltetési helyén a hangformátumú könyvösszefoglalóknak. Élvezze a korlátlan hozzáférést több mint 1000 könyvösszefoglalóhoz, személyre szabott ajánlásokhoz, professzionális narrációhoz és a mozgás közbeni tanulás képességéhez.",
+  "online_activation": "Online aktiválás",
+  "accessIn3Steps": "Hozzáférés 3 egyszerű lépésben",
+  "step1": "Iratkozz fel",
+  "step2": "Töltsd le az alkalmazást",
+  "step3": "Élvezd",
+  "subscribe": "Folytatás",
+  "email_placeholder": "te@email.com",
+  "processing": "Feldolgozás...",
+  "enjoy_free_trial": "Hozzáférés az összes tartalomhoz ingyenesen az első napon. Utána a havi csomag értéke {{amount}} {{currency}} lesz.",
+  "benefits_premium": "Prémium előnyök",
+  "benefits_list": [
+    "Korlátlan hozzáférés minden könyvösszefoglalóhoz",
+    "Rendszeres tartalomfrissítések",
+    "Exkluzív tartalom előfizetők számára",
+    "Több eszközön elérhető",
+    "100%-ban biztonságos és reklámmentes élmény",
+    "Töltse le kedvenc hanganyagait",
+    "Elsőbbség az új frissítésekben",
+    "Fejlett hangvezérlők",
+    "Még sok más..."
+  ],
+  "error": {
+    "email": "Nem lett megadva e-mail cím.",
+    "stripe": "A Stripe nem áll készen. Próbálja újra később.",
+    "submit": "Hiba a küldés során: {{error}}",
+    "create_customer": "Hiba az ügyfél létrehozásakor.",
+    "confirm_setup": "Hiba az előfizetés megerősítésekor: {{error}}",
+    "general": "Általános hiba: {{error}}",
+    "create_user": "Hiba a felhasználó létrehozásakor. Az előfizetése sikeresen létrejött, vegye fel velünk a kapcsolatot a probléma megoldásához.",
+    "default": "Hiba. Valami elromlott, próbálja újra",
+    "existing_subscription": "Már van aktív előfizetése",
+    "existing_customer": "Már létezik ügyfél ezzel az e-mail címmel"
+  },
+  "need_help_subscription": "Segítségre van szüksége a feliratkozáshoz?",
+  "need_help_client": "Segítségre van szüksége a platformra való belépéshez?",
+  "contact": "Jelentés küldése",
+  "retry": "Újrapróbálás",
+  "creating_subscription": "Létrehozzuk az előfizetését",
+  "thanks": "Köszönjük, hogy feliratkozott!",
+  "you_will_be_redirected": "{{seconds}} másodperc múlva átirányítjuk az oldalra...",
+  "go_to_platform": "Ugrás az oldalra",
+  "go_to_platform_manual": "Ugrás az oldalra",
+  "": "Manuálisan kell bejelentkeznie a platformon.",
+  "loading": "Betöltés..."
+}

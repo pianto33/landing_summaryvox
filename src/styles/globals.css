@@ -1,0 +1,161 @@
+/* normalize */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1.4;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* variables */
+:root {
+  /* colors */
+  --clr-primary: #75ff75;
+  --clr-secondary: #1A1A1A;
+  --clr-secondary-light: #d4adf8;
+  --clr-black: #03031c;
+  --clr-gray: #323232;
+  --clr-white: #fff;
+  --clr-yellow: #F7C948;
+  --clr-error: #ff2424;
+  --clr-whatsapp: #25d366;
+  --clr-gradient: linear-gradient(179deg, #ffffff 13.45%, #ffffff 33.89%);
+  /* font-size */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-3xl: 2rem; /* 32px */
+  --text-2xl: 1.75rem; /* 28px */
+  --text-xl: 1.5rem; /* 24px */
+  --text-lg: 1.25rem; /* 20px */
+  --text-base: 1rem; /* 16px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-xs: 0.75rem; /* 12px */
+}
+
+/* base */
+body {
+  background: var(--clr-white) var(--clr-gradient);
+  color: var(--clr-white);
+}

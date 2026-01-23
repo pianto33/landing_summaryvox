@@ -1,0 +1,50 @@
+{
+  "metadata": {
+    "title": "VoxPages",
+    "description": "Příběhy, které s vámi zůstanou"
+  },
+  "welcome_intro": "Vítejte na <b>VoxPages</b>, vaší konečné destinaci pro shrnutí knih v audio formátu. Užijte si neomezený přístup k více než 1000 shrnutím knih, personalizovaným doporučením, profesionální narraci a schopnost učit se na cestách.",
+  "online_activation": "Online aktivace",
+  "accessIn3Steps": "Přístup ve 3 jednoduchých krocích",
+  "step1": "Přihlaste se k odběru",
+  "step2": "Stáhněte aplikaci",
+  "step3": "Užívejte si",
+  "subscribe": "Pokračovat",
+  "email_placeholder": "vas@email.cz",
+  "processing": "Zpracování...",
+  "enjoy_free_trial": "Přístup ke všemu obsahu zdarma během prvního dne. Poté bude měsíční plán stát {{amount}} {{currency}}.",
+  "benefits_premium": "Premium výhody",
+  "benefits_list": [
+    "Neomezený přístup ke všem shrnutím knih",
+    "Pravidelné aktualizace obsahu",
+    "Exkluzivní obsah pro předplatitele",
+    "Dostupné na více zařízeních",
+    "100% bezpečný zážitek bez reklam",
+    "Stáhněte si oblíbená zvuková nahrávání",
+    "Priorita v nových aktualizacích",
+    "Pokročilé ovládání zvuku",
+    "Mnoho dalšího..."
+  ],
+  "error": {
+    "email": "Nebyl zadán e-mail.",
+    "stripe": "Stripe není připraven. Zkuste to později.",
+    "submit": "Chyba při odesílání: {{error}}",
+    "create_customer": "Chyba při vytváření zákazníka.",
+    "confirm_setup": "Chyba při potvrzování předplatného: {{error}}",
+    "general": "Obecná chyba: {{error}}",
+    "create_user": "Chyba při vytváření uživatele. Vaše předplatné bylo úspěšně vytvořeno, kontaktujte nás pro řešení tohoto problému.",
+    "default": "Chyba. Něco se pokazilo, zkuste to znovu",
+    "existing_subscription": "Již máte aktivní předplatné",
+    "existing_customer": "Zákazník s tímto e-mailem již existuje"
+  },
+  "need_help_subscription": "Potřebujete pomoc s přihlášením k odběru?",
+  "need_help_client": "Potřebujete pomoc se vstupem na platformu?",
+  "contact": "Odeslat zprávu",
+  "retry": "Zkusit znovu",
+  "creating_subscription": "Vytváříme vaše předplatné",
+  "thanks": "Děkujeme za přihlášení k odběru!",
+  "you_will_be_redirected": "Budete přesměrováni na stránku za {{seconds}} sekund...",
+  "go_to_platform": "Jít na stránku",
+  "go_to_platform_manual": "Jít na stránku",
+  "loading": "Načítání..."
+}
