@@ -33,9 +33,9 @@ function Layout({ children }: Props) {
         <meta name="author" content="Voxpages Team" />
         <meta name="creator" content="Voxpages Team" />
         <meta name="publisher" content="Voxpages Team" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
         <link rel="icon" type="image/png" href="/favicon.png" />
-        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.png" />
         <link rel="apple-touch-icon" href="/favicon.png" />
       </Head>
 
