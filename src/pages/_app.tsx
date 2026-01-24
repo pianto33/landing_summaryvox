@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       {/* Google Tag Manager y Analytics - Cargados después de que la página esté completamente lista */}
       <Script
-        src="https://www.googletagmanager.com/gtag/js?id=AW-17649346670"
+        src="https://www.googletagmanager.com/gtag/js?id=AW-17863886225"
         strategy="lazyOnload"
       />
       <Script id="google-analytics" strategy="lazyOnload">
@@ -41,7 +41,7 @@ export default function App({ Component, pageProps }: AppProps) {
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
-          gtag('config', 'AW-17649346670');
+          gtag('config', 'AW-17863886225');
         `}
       </Script>
 

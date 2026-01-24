@@ -7,8 +7,8 @@ const PRODUCTION_ORIGINS = [
   'https://landing.voxpages.com',
   'https://landing-qa.voxpages.com',
   'https://voxpages.com',
-  'https://suscriptionlanding-git-qa-tonsightllcs-projects.vercel.app',
-  'https://resume-book-git-qa-tonsightllcs-projects.vercel.app',
+  'https://suscriptionlanding-git-qa-voxpages-projects.vercel.app',
+  'https://resume-book-git-qa-voxpages-projects.vercel.app',
 ];
 
 const DEV_ORIGINS = [
