@@ -21,12 +21,9 @@ interface StripeDataMap extends Partial<Record<string, StripeData>> {
 }
 
 export const PRICE_ID: Record<string, string> = {
-    AR: "price_1SZeAgFyTQZ6pCTOaBzgTesl",
-    ES: "price_1SZe97FyTQZ6pCTOQBUf0Lj3",
-    PL: "price_1SpLkdFyTQZ6pCTOPPB7IfRB",
-    TEST: "price_1SVOcnFyTQZ6pCTOn86cHdp1",
-    QA: "price_1SOWhTFzcCyAwI5PaxxJ6KP1",
-    DEFAULT: "price_1SZdUaFyTQZ6pCTOsKu8mX7V",
+    ES: "price_1St9gFIiQJtaidhOIrc57oIQ",
+    TEST: "price_1St9gPIiQJtaidhOwIQPuQkA",
+    DEFAULT: "price_1St8jpIiQJtaidhOGVFFc7dt",
 };
 
 export const STRIPE_DATA: StripeDataMap = {
@@ -34,24 +31,12 @@ export const STRIPE_DATA: StripeDataMap = {
         amount: 100, // 1.00 USD
         currency: "usd",
     },
-    QA: {
-        amount: 999, // 9.99 USD
-        currency: "usd",
-    },
     ES: {
         amount: 1999, // 19.99 EUR
         currency: "eur",
     },
-    PL: {
-        amount: 5900, // 59.00 PLN ~ 14.00 EUR
-        currency: "pln",
-    },
-    AR: {
-        amount: 100, // 1 ARS
-        currency: "ars",
-    },
     DEFAULT: {
-        amount: 2000, // 20.00 EUR
+        amount: 1999, // 19.99 USD
         currency: "eur",
     },
 };
