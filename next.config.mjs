@@ -66,8 +66,8 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: https: blob:",
-      // Frames: Stripe, GTM (para tags), hCaptcha
-      "frame-src https://js.stripe.com https://hooks.stripe.com https://www.googletagmanager.com https://newassets.hcaptcha.com https://www.google.com",
+      // Frames: Stripe, GTM (para tags), hCaptcha, Vercel Live (preview)
+      "frame-src https://js.stripe.com https://hooks.stripe.com https://www.googletagmanager.com https://newassets.hcaptcha.com https://www.google.com https://vercel.live",
       // Conexiones: Stripe, GA, GTM, Google Ads, ipapi (ambos dominios), Vercel, hCaptcha
       "connect-src 'self' https://api.stripe.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://ipapi.co https://api.ipapi.com https://www.google.com https://googleads.g.doubleclick.net https://vercel.live https://api.hcaptcha.com https://voxpages.com https://qa.voxpages.com",
       "worker-src 'self' blob:",
