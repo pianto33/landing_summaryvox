@@ -75,12 +75,35 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 subscriptionData
             );
 
+            // Actualizar el SetupIntent con metadata incluyendo subscription_id
+            // Esto facilita el manejo en webhooks
+            if (
+                subscription.pending_setup_intent &&
+                typeof subscription.pending_setup_intent !== "string"
+            ) {
+                const setupIntentId = subscription.pending_setup_intent.id;
+                
+                await stripe.setupIntents.update(setupIntentId, {
+                    metadata: {
+                        ...metadata,
+                        subscription_id: subscription.id,
+                    },
+                });
+
+                logger.info("SetupIntent actualizado con subscription_id", {
+                    setupIntentId,
+                    subscriptionId: subscription.id,
+                    customerId,
+                });
+            }
+
             res.status(200).send({
                 clientSecret:
                     subscription.pending_setup_intent &&
                     typeof subscription.pending_setup_intent !== "string"
                         ? subscription.pending_setup_intent.client_secret
                         : null,
+                subscriptionId: subscription.id,
             });
         } catch (error: any) {
             // card_error = problema del usuario (tarjeta rechazada, robada, etc.) -> warn
