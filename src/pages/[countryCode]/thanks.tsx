@@ -59,7 +59,7 @@ function ThanksPage() {
                 amount: (amount / 100).toFixed(2),
                 currency,
                 hasGclid: !!gclid,
-                conversionId: 'AW-17863886225/vCjPCPmzrOYbEJGLlcZC',
+                conversionId: 'AW-17863886225/KlNkCP6duegbEJGLlcZC',
             });
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -188,18 +188,38 @@ function ThanksPage() {
             <Script id="google-ads-conversion" strategy="afterInteractive">
                 {`
         (function() {
+          var retryCount = 0;
+          var maxRetries = 50; // 5 segundos máximo (50 * 100ms)
+          
+          function getGclidFromUrl() {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('gclid');
+          }
+          
           function sendConversion() {
             if (typeof gtag !== 'undefined') {
-              gtag('event', 'conversion', {
-                'send_to': 'AW-17863886225/vCjPCPmzrOYbEJGLlcZC'
-                ${amount ? `, 'value': ${(amount / 100).toFixed(2)}` : ""}
-                ${currency ? `, 'currency': '${currency}'` : ""}
-                ${gclid ? `, 'gclid': '${gclid}'` : ""}
-              });
-              console.log('Google Ads conversion sent successfully');
+              var gclid = getGclidFromUrl();
+              var conversionData = {
+                'send_to': 'AW-17863886225/KlNkCP6duegbEJGLlcZC'
+              };
+              
+              ${amount ? `conversionData['value'] = ${(amount / 100).toFixed(2)};` : ""}
+              ${currency ? `conversionData['currency'] = '${currency}';` : ""}
+              
+              if (gclid) {
+                conversionData['gclid'] = gclid;
+              }
+              
+              gtag('event', 'conversion', conversionData);
+              console.log('Google Ads conversion sent successfully', conversionData);
             } else {
-              console.warn('gtag not available, retrying in 100ms');
-              setTimeout(sendConversion, 100);
+              retryCount++;
+              if (retryCount < maxRetries) {
+                console.warn('gtag not available, retrying in 100ms (attempt ' + retryCount + '/' + maxRetries + ')');
+                setTimeout(sendConversion, 100);
+              } else {
+                console.error('gtag failed to load after ' + maxRetries + ' attempts');
+              }
             }
           }
           sendConversion();

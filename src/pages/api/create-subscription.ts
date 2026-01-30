@@ -81,8 +81,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 subscription.pending_setup_intent &&
                 typeof subscription.pending_setup_intent !== "string"
             ) {
-                const setupIntentId = subscription.pending_setup_intent.id;
+                const setupIntent = subscription.pending_setup_intent;
+                const setupIntentId = setupIntent.id;
                 
+                // Log para verificar la configuración del SetupIntent
+                logger.info("SetupIntent creado por Stripe", {
+                    setupIntentId,
+                    subscriptionId: subscription.id,
+                    customerId,
+                    usage: setupIntent.usage, // Debería ser 'off_session' para suscripciones
+                    status: setupIntent.status,
+                });
+
                 await stripe.setupIntents.update(setupIntentId, {
                     metadata: {
                         ...metadata,
