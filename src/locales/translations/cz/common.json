@@ -42,7 +42,12 @@
   "contact": "Odeslat zprávu",
   "retry": "Zkusit znovu",
   "creating_subscription": "Vytváříme vaše předplatné",
-  "thanks": "Děkujeme za přihlášení k odběru!",
+  "thanks": {
+    "title": "Děkujeme!",
+    "subtitle": "Vaše předplatné se zpracovává",
+    "email_confirmation": "Obdržíte potvrzovací e-mail na {{email}}",
+    "processing_message": "Za několik sekund získáte přístup ke svému premium účtu."
+  },
   "you_will_be_redirected": "Budete přesměrováni na stránku za {{seconds}} sekund...",
   "go_to_platform": "Jít na stránku",
   "go_to_platform_manual": "Jít na stránku",

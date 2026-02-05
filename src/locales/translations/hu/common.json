@@ -42,7 +42,12 @@
   "contact": "Jelentés küldése",
   "retry": "Újrapróbálás",
   "creating_subscription": "Létrehozzuk az előfizetését",
-  "thanks": "Köszönjük, hogy feliratkozott!",
+  "thanks": {
+    "title": "Köszönjük!",
+    "subtitle": "Az előfizetése feldolgozás alatt áll",
+    "email_confirmation": "Megerősítő e-mailt kap a {{email}} címre",
+    "processing_message": "Néhány másodperc múlva hozzáférhet prémium fiókjához."
+  },
   "you_will_be_redirected": "{{seconds}} másodperc múlva átirányítjuk az oldalra...",
   "go_to_platform": "Ugrás az oldalra",
   "go_to_platform_manual": "Ugrás az oldalra",

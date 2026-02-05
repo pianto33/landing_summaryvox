@@ -42,7 +42,12 @@
   "contact": "Enviar informe",
   "retry": "Reintentar",
   "creating_subscription": "Estamos creando tu suscripción",
-  "thanks": "¡Gracias por suscribirte!",
+  "thanks": {
+    "title": "¡Gracias!",
+    "subtitle": "Tu suscripción está siendo procesada",
+    "email_confirmation": "Recibirás un email de confirmación en {{email}}",
+    "processing_message": "En unos segundos recibirás acceso a tu cuenta premium."
+  },
   "you_will_be_redirected": "Serás redirigido al sitio en {{seconds}} segundos...",
   "go_to_platform": "Ir al sitio",
   "go_to_platform_manual": "Ir al sitio",

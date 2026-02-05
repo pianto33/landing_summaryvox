@@ -231,7 +231,9 @@ function ThanksPage() {
                 <div className={styles.contentWrapper}>
                     <IoCheckmarkCircleOutline className={styles.successIcon} />
                     
-                    <h1 className={styles.title}>{t("thanks")}</h1>
+                    <h1 className={styles.title}>{t("thanks.title")}</h1>
+                    <p className={styles.subtitle}>{t("thanks.subtitle")}</p>
+                    <p className={styles.processingMessage}>{t("thanks.processing_message")}</p>
 
                     <div className={styles.buttonWrapper}>
                         <Button

@@ -62,6 +62,20 @@
   }
 }
 
+.processingMessage {
+  font-size: var(--text-sm);
+  text-align: center;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .processingMessage {
+    font-size: var(--text-md);
+  }
+}
+
 .buttonWrapper {
   width: 100%;
   max-width: 400px;

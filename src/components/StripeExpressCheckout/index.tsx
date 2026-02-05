@@ -9,19 +9,13 @@ import {
   StripeExpressCheckoutElementClickEvent,
   StripeExpressCheckoutElementConfirmEvent,
 } from "@stripe/stripe-js";
-import {
-  createCustomer,
-  createSubscription,
-  checkSubscriptions,
-  checkCustomer,
-} from "@/api/stripe";
 import { useAppTranslation } from "@/hooks/useAppTranslation";
 import { sendEvent } from "@/utils/gtm";
 import { GTM_EVENTS, PRICE_ID } from "@/constants";
 import { fetchIPData } from "@/services/trackingService";
 import { logger } from "@/utils/logger";
 import { clientLogger } from "@/utils/clientLogger";
-import { extractTrackingParams, saveTrackingParams, addTrackingParams, getTrackingParams } from "@/utils/trackingParams";
+import { extractTrackingParams, saveTrackingParams, getTrackingParams, addTrackingParams } from "@/utils/trackingParams";
 import Button from "@/components/Button";
 import CardPaymentForm from "@/components/CardPaymentForm";
 import styles from "@/styles/StripeExpressCheckout.module.css";
@@ -125,27 +119,20 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
                process.env.NEXT_PUBLIC_BASE_URL?.includes('staging') ||
                process.env.NEXT_PUBLIC_BASE_URL?.includes('localhost');
 
-  // Obtener la IP y datos de geolocalizaci?n para Stripe Radar
+  // Obtener la IP y datos de geolocalización
   useEffect(() => {
     const getIPAddress = async () => {
       try {
         const ipData = await fetchIPData();
         if (ipData.ip) {
           setIpAddress(ipData.ip);
-          // Guardar datos de geolocalizaci?n para enviar a Stripe Radar
+          // Guardar datos de geolocalización para enviar al webhook
           setGeoData({
             country: ipData.country,
             state: ipData.state,
             city: ipData.city,
             postal: ipData.postal,
           });
-          if (!isBot()) {
-            logger.info("Datos de geolocalizaci?n obtenidos para Stripe Radar", {
-              country: ipData.country,
-              city: ipData.city,
-              hasPostal: !!ipData.postal,
-            });
-          }
         }
       } catch (error) {
         if (!isBot()) {
@@ -154,12 +141,12 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
       }
     };
 
-    // Guardar par?metros de tracking (gclid, utm_*, etc.)
+    // Guardar parámetros de tracking (gclid, utm_*, etc.)
     const trackingParams = extractTrackingParams(router.query);
     if (Object.keys(trackingParams).length > 0) {
       saveTrackingParams(trackingParams);
       if (!isBot()) {
-        logger.info("Par?metros de tracking capturados", trackingParams);
+        logger.info("Parámetros de tracking capturados", trackingParams);
       }
     }
 
@@ -217,6 +204,7 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
         return;
       }
 
+      // Submit del elemento
       const { error: submitError } = await elements.submit();
       if (submitError) {
         const errorMsg = t("error.submit", { error: submitError.message || "Desconocido" });
@@ -225,159 +213,94 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
         return;
       }
 
-      let customerId: string | null = null;
-      try {
-        customerId = await checkCustomer(email);
+      // Obtener parámetros de tracking (gclid, etc.)
+      const trackingParams = getTrackingParams();
 
-        if (!customerId) {
-          // Crear customer con datos geolocalizados para Stripe Radar
-          const customerPayload: any = { name, email };
-          
-          if (geoData) {
-            customerPayload.country = geoData.country;
-            customerPayload.state = geoData.state;
-            customerPayload.city = geoData.city;
-            customerPayload.postal = geoData.postal;
-          }
-          
-          customerId = await createCustomer(customerPayload);
-        }
+      // NUEVO: Solo crear SetupIntent (rápido ~200ms)
+      // El endpoint se encarga de buscar/crear customer y verificar suscripciones
+      if (!isBot()) {
+        clientLogger.info('Creando SetupIntent en Stripe', {
+          context: 'StripeExpressCheckout - pre createSetupIntent',
+          priceId,
+          email,
+        });
+      }
 
-        // Guardar customerId en localStorage para uso en thanks/error pages
-        if (customerId) {
-          localStorage.setItem("customerId", customerId);
-        }
+      const response = await fetch("/api/create-setup-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          name,
+          priceId,
+          countryCode: router.query.countryCode,
+          ip_address: ipAddress,
+          gclid: trackingParams.gclid || undefined,
+          // Datos de geolocalización para el webhook
+          geo_country: geoData?.country || undefined,
+          geo_state: geoData?.state || undefined,
+          geo_city: geoData?.city || undefined,
+          geo_postal: geoData?.postal || undefined,
+        }),
+      });
 
-        const hasActiveSubscriptions = await checkSubscriptions(customerId);
-        if (hasActiveSubscriptions) {
-          if (!isBot()) {
-            logger.info("Intento de suscripci?n duplicada detectado", {
-              email,
-              customerId,
-              context: "StripeExpressCheckout - Usuario con suscripci?n activa",
-            });
-          }
-          const errorMsg = t("error.existing_subscription");
-          setErrorMessage(errorMsg);
-          e.paymentFailed({ reason: "fail" });
-          router.push(
-            `/${router.query.countryCode}/error?error=existing_subscription`
-          );
-          return;
-        }
-      } catch (error) {
+      const data = await response.json();
+      
+      if (data.error) {
         if (!isBot()) {
-          logger.error("Error checking/creating customer", error, {
+          logger.warn("Error al crear SetupIntent", {
+            error: data.error,
             email,
+            priceId,
           });
         }
-        const errorMsg = t("error.create_customer");
-        setErrorMessage(errorMsg);
+        
+        setErrorMessage(t("error.general", { error: data.error }));
         e.paymentFailed({ reason: "fail" });
         return;
       }
 
-      // Obtener parámetros de tracking (gclid, etc.)
-      const trackingParams = getTrackingParams();
-
-      // NOTA: Stripe Radar funciona automáticamente con SetupIntent
-      // No es necesario crear un RadarSession manualmente
-
-      // Preparar datos de subscription con metadata de geolocalización y tracking
-      const subscriptionPayload: any = {
-        customerId,
-        priceId,
-        ip_address: ipAddress || undefined,
-        gclid: trackingParams.gclid || undefined, // Google Ads Click ID
-      };
-
-      // Agregar datos de geolocalización para metadata
-      if (geoData) {
-        if (geoData.country) subscriptionPayload.geo_country = geoData.country;
-        if (geoData.state) subscriptionPayload.geo_state = geoData.state;
-        if (geoData.city) subscriptionPayload.geo_city = geoData.city;
-        if (geoData.postal) subscriptionPayload.geo_postal = geoData.postal;
-      }
-
-      // Log antes de crear subscription (operación que puede fallar)
-      if (!isBot()) {
-        clientLogger.info('Creando subscription en Stripe', {
-          context: 'StripeExpressCheckout - pre createSubscription',
-          customerId,
-          priceId,
-        });
-      }
-
-      const { clientSecret: subscriptionSecret } = await createSubscription(subscriptionPayload);
-      const baseReturnUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${router.query.countryCode}/pending?payment_intent=${subscriptionSecret}`;
-      const returnUrl = addTrackingParams(baseReturnUrl, trackingParams);
-
-      // Construir billing_details con datos geolocalizados para Stripe Radar
+      // Construir billing_details para Stripe
       const billingDetails: any = {
-        email: email,
-        name: name,
+        email,
+        name,
       };
 
-      // Agregar direcci?n geolocalizada solo si tenemos pa?s (requisito de Stripe)
-      if (geoData?.country) {
-        billingDetails.address = {
-          country: geoData.country,
-        };
-        
-        // Agregar campos opcionales si est?n disponibles
-        if (geoData.state) {
-          billingDetails.address.state = geoData.state;
-        }
-        if (geoData.city) {
-          billingDetails.address.city = geoData.city;
-        }
-        if (geoData.postal) {
-          billingDetails.address.postal_code = geoData.postal;
-        }
-        
-        if (!isBot()) {
-          logger.info("Enviando direcci?n geolocalizada a Stripe Radar", {
-            country: geoData.country,
-            city: geoData.city,
-            hasPostal: !!geoData.postal,
-          });
-        }
-      }
-
-      const confirmParams: any = {
-        return_url: returnUrl,
-        payment_method_data: {
-          billing_details: billingDetails,
-        },
-      };
-
-      // Log antes de confirmSetup (última operación crítica)
+      // Log antes de confirmSetup
       if (!isBot()) {
         clientLogger.info('Confirmando setup de pago con Stripe', {
           context: 'StripeExpressCheckout - pre confirmSetup',
-          hasClientSecret: !!subscriptionSecret,
-          email: e.billingDetails?.email || 'desconocido',
+          hasClientSecret: !!data.clientSecret,
+          email,
         });
       }
 
+      // Construir return_url con parámetros de tracking (gclid, utm_*, etc.)
+      const baseReturnUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${router.query.countryCode}/thanks`;
+      const returnUrl = addTrackingParams(baseReturnUrl, trackingParams);
+
+      // Confirmar y redirigir DIRECTO a thanks
       const { error } = await stripe.confirmSetup({
         elements,
-        clientSecret: subscriptionSecret || "",
+        clientSecret: data.clientSecret,
         redirect: "always",
-        confirmParams,
+        confirmParams: {
+          return_url: returnUrl,
+          payment_method_data: {
+            billing_details: billingDetails,
+          },
+        },
       });
 
       if (error) {
         // Log específico para errores de confirmSetup
-        // card_error = problema del usuario (tarjeta rechazada, robada, etc.) -> warn
-        // otros tipos = error del sistema -> error
         if (!isBot()) {
           const logData = {
             context: 'StripeExpressCheckout - confirmSetup failed',
             stripeErrorCode: error.code,
             stripeErrorType: error.type,
             stripeDeclineCode: (error as any).decline_code,
-            email: e.billingDetails?.email || 'desconocido',
+            email,
           };
           
           if (error.type === 'card_error') {

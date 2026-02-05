@@ -147,6 +147,21 @@ export const createSubscriptionSchema = z.object({
 export type CreateSubscriptionInput = z.infer<typeof createSubscriptionSchema>;
 
 /**
+ * POST /api/create-setup-intent
+ * Endpoint simplificado que crea customer y SetupIntent en una sola llamada
+ */
+export const createSetupIntentSchema = z.object({
+  email: emailSchema,
+  name: nameSchema,
+  priceId: stripePriceIdSchema,
+  countryCode: z.string().max(10).optional(),
+  ip_address: ipAddressSchema,
+  gclid: gclidSchema,
+});
+
+export type CreateSetupIntentInput = z.infer<typeof createSetupIntentSchema>;
+
+/**
  * POST /api/create-intent
  */
 export const createIntentSchema = z.object({

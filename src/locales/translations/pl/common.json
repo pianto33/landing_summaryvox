@@ -42,7 +42,12 @@
   "contact": "Wyślij raport",
   "retry": "Spróbuj ponownie",
   "creating_subscription": "Tworzymy Twoją subskrypcję",
-  "thanks": "Dziękujemy za subskrypcję!",
+  "thanks": {
+    "title": "Dziękujemy!",
+    "subtitle": "Twoja subskrypcja jest przetwarzana",
+    "email_confirmation": "Otrzymasz email potwierdzający na {{email}}",
+    "processing_message": "Za kilka sekund otrzymasz dostęp do swojego konta premium."
+  },
   "you_will_be_redirected": "Zostaniesz przekierowany na stronę za {{seconds}} sekund...",
   "go_to_platform": "Przejdź do strony",
   "go_to_platform_manual": "Przejdź do strony",

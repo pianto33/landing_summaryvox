@@ -31,6 +31,7 @@ export {
   // Schemas por endpoint
   createCustomerSchema,
   createSubscriptionSchema,
+  createSetupIntentSchema,
   createIntentSchema,
   checkCustomerSchema,
   checkSubscriptionsSchema,
@@ -38,6 +39,7 @@ export {
   // Tipos
   type CreateCustomerInput,
   type CreateSubscriptionInput,
+  type CreateSetupIntentInput,
   type CreateIntentInput,
   type CheckCustomerInput,
   type CheckSubscriptionsInput,

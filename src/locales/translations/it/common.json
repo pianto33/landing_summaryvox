@@ -42,7 +42,12 @@
   "contact": "Invia rapporto",
   "retry": "Riprova",
   "creating_subscription": "Stiamo creando il tuo abbonamento",
-  "thanks": "Grazie per esserti iscritto!",
+  "thanks": {
+    "title": "Grazie!",
+    "subtitle": "Il tuo abbonamento è in fase di elaborazione",
+    "email_confirmation": "Riceverai un'email di conferma a {{email}}",
+    "processing_message": "In pochi secondi avrai accesso al tuo account premium."
+  },
   "you_will_be_redirected": "Verrai reindirizzato al sito in {{seconds}} secondi...",
   "go_to_platform": "Vai al sito",
   "go_to_platform_manual": "Vai al sito",
