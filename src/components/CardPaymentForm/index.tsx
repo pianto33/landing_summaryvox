@@ -1,12 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import {
-  createCustomer,
-  createSubscription,
-  checkSubscriptions,
-  checkCustomer,
-} from "@/api/stripe";
 import { useAppTranslation } from "@/hooks/useAppTranslation";
 import { logger } from "@/utils/logger";
 import { fetchIPData } from "@/services/trackingService";
@@ -56,6 +50,12 @@ function CardPaymentForm({ label, priceId, animateButton, amount, currency }: Pr
   const [errorMessage, setErrorMessage] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [ipAddress, setIpAddress] = useState<string | null>(null);
+  const [geoData, setGeoData] = useState<{
+    country: string | null;
+    state: string | null;
+    city: string | null;
+    postal: string | null;
+  } | null>(null);
   const [email, setEmail] = useState("");
 
   useEffect(() => {
@@ -64,6 +64,13 @@ function CardPaymentForm({ label, priceId, animateButton, amount, currency }: Pr
         const ipData = await fetchIPData();
         if (ipData.ip) {
           setIpAddress(ipData.ip);
+          // Guardar datos de geolocalización para enviar al webhook
+          setGeoData({
+            country: ipData.country,
+            state: ipData.state,
+            city: ipData.city,
+            postal: ipData.postal,
+          });
         }
       } catch (error) {
         logger.warn("Error obteniendo IP en cliente", {
@@ -115,80 +122,55 @@ function CardPaymentForm({ label, priceId, animateButton, amount, currency }: Pr
       localStorage.setItem("paymentAmount", amount.toString());
       localStorage.setItem("paymentCurrency", currency);
 
-      let customerId: string | null = null;
-      try {
-        customerId = await checkCustomer(email);
+      // Obtener parámetros de tracking (gclid, etc.)
+      const trackingParams = getTrackingParams();
 
-        if (!customerId) {
-          customerId = await createCustomer({ name, email });
-        }
+      // NUEVO: Solo crear SetupIntent (rápido ~200ms)
+      // El webhook se encarga de crear customer y subscription
+      logger.info('Creando SetupIntent en Stripe', {
+        context: 'CardPaymentForm - pre createSetupIntent',
+        priceId,
+        email,
+      });
 
-        // Guardar customerId en localStorage para uso en thanks/error pages
-        if (customerId) {
-          localStorage.setItem("customerId", customerId);
-        }
+      const response = await fetch("/api/create-setup-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          name,
+          priceId,
+          countryCode: router.query.countryCode,
+          ip_address: ipAddress,
+          gclid: trackingParams.gclid || undefined,
+          // Datos de geolocalización para el webhook
+          geo_country: geoData?.country || undefined,
+          geo_state: geoData?.state || undefined,
+          geo_city: geoData?.city || undefined,
+          geo_postal: geoData?.postal || undefined,
+        }),
+      });
 
-        const hasActiveSubscriptions = await checkSubscriptions(customerId);
-        if (hasActiveSubscriptions) {
-          logger.info("Intento de suscripción duplicada detectado", {
-            email,
-            customerId,
-            context: "CardPaymentForm - Usuario con suscripción activa",
-          });
-          setErrorMessage(t("error.existing_subscription"));
-          router.push(
-            `/${router.query.countryCode}/error?error=existing_subscription`
-          );
-          setIsProcessing(false);
-          return;
-        }
-      } catch (error) {
-        logger.error("Error checking/creating customer", error, {
-          context: "CardPaymentForm - Customer Creation",
+      const data = await response.json();
+
+      if (data.error) {
+        logger.warn("Error al crear SetupIntent", {
+          error: data.error,
           email,
           priceId,
         });
-        setErrorMessage(t("error.create_customer"));
+        setErrorMessage(t("error.general", { error: data.error }));
         setIsProcessing(false);
         return;
       }
 
-      // Obtener parámetros de tracking (gclid, etc.)
-      const trackingParams = getTrackingParams();
-
-      // 🎯 CREAR RADAR SESSION para mejorar la detección de fraude de Stripe
-      // Según https://docs.stripe.com/radar/radar-session
-      let radarSessionId: string | undefined;
-      try {
-        const { radarSession, error: radarError } = await stripe.createRadarSession();
-        if (radarError) {
-          logger.warn("Error creando Radar Session", { error: radarError });
-        } else if (radarSession) {
-          radarSessionId = radarSession.id;
-          logger.info("Radar Session creado exitosamente", {
-            sessionId: radarSessionId,
-          });
-        }
-      } catch (radarErr) {
-        // No bloquear el checkout si falla Radar Session
-        logger.warn("Excepción al crear Radar Session", { error: radarErr });
-      }
-
-      const { clientSecret: subscriptionSecret } = await createSubscription({
-        customerId,
-        priceId,
-        ip_address: ipAddress || undefined,
-        gclid: trackingParams.gclid || undefined, // Google Ads Click ID
-        radar_session_id: radarSessionId, // Radar Session para detección de fraude
-      });
-
       // Construir return_url con parámetros de tracking preservados
-      const baseReturnUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${router.query.countryCode}/pending?payment_intent=${subscriptionSecret}`;
+      const baseReturnUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${router.query.countryCode}/thanks`;
       const returnUrl = addTrackingParams(baseReturnUrl, trackingParams);
 
       const { error } = await stripe.confirmSetup({
         elements,
-        clientSecret: subscriptionSecret || "",
+        clientSecret: data.clientSecret,
         confirmParams: {
           return_url: returnUrl,
         },
@@ -275,4 +257,3 @@ function CardPaymentForm({ label, priceId, animateButton, amount, currency }: Pr
 }
 
 export default CardPaymentForm;
-

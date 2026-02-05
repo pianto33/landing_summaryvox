@@ -22,6 +22,7 @@ import { checkMemoryRateLimit, getMemoryRateLimitStats } from './memoryRateLimit
 export type RateLimitEndpoint = 
   | 'create-customer'
   | 'create-subscription'
+  | 'create-setup-intent'
   | 'create-intent'
   | 'check-customer'
   | 'send-email'
