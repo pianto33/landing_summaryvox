@@ -52,5 +52,9 @@
   "go_to_platform": "Vai al sito",
   "go_to_platform_manual": "Vai al sito",
   "": "Dovrai effettuare l'accesso manualmente sulla piattaforma.",
-  "loading": "Caricamento..."
+  "loading": "Caricamento...",
+  "footer": {
+    "company": "Pianto33 LLC",
+    "terms_and_conditions": "Termini e condizioni"
+  }
 }

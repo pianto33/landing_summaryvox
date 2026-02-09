@@ -51,5 +51,9 @@
   "you_will_be_redirected": "Serás redirecionado para o site em {{seconds}} segundos...",
   "go_to_platform": "Ir para o site",
   "go_to_platform_manual": "Ir para o site",
-  "loading": "A carregar..."
+  "loading": "A carregar...",
+  "footer": {
+    "company": "Pianto33 LLC",
+    "terms_and_conditions": "Termos e condições"
+  }
 }

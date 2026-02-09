@@ -1,3 +1,29 @@
 .footer {
-    height: 80px;
+  min-height: 80px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+}
+
+.company {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, #666);
+}
+
+.termsLink {
+  font-size: 0.875rem;
+  color: var(--color-link, #2563eb);
+  text-decoration: none;
+}
+
+.termsLink:hover {
+  text-decoration: underline;
 }

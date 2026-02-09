@@ -52,5 +52,9 @@
   "go_to_platform": "Ugrás az oldalra",
   "go_to_platform_manual": "Ugrás az oldalra",
   "": "Manuálisan kell bejelentkeznie a platformon.",
-  "loading": "Betöltés..."
+  "loading": "Betöltés...",
+  "footer": {
+    "company": "Pianto33 LLC",
+    "terms_and_conditions": "Általános szerződési feltételek"
+  }
 }

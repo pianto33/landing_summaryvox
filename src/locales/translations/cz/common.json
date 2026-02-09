@@ -51,5 +51,9 @@
   "you_will_be_redirected": "Budete přesměrováni na stránku za {{seconds}} sekund...",
   "go_to_platform": "Jít na stránku",
   "go_to_platform_manual": "Jít na stránku",
-  "loading": "Načítání..."
+  "loading": "Načítání...",
+  "footer": {
+    "company": "Pianto33 LLC",
+    "terms_and_conditions": "Obchodní podmínky"
+  }
 }
