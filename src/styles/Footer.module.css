@@ -15,12 +15,12 @@
 
 .company {
   font-size: 0.875rem;
-  color: var(--color-text-secondary, #666);
+  color: var(--clr-white);
 }
 
 .termsLink {
   font-size: 0.875rem;
-  color: var(--color-link, #2563eb);
+  color: var(--clr-white);
   text-decoration: none;
 }
 
