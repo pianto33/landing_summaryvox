@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import StripeExpressCheckout from "@/components/StripeExpressCheckout";
 import Header from "@/components/Header";
@@ -7,6 +8,8 @@ import { useStripeData } from "@/hooks/useStripeData";
 import { useAppTranslation } from "@/hooks/useAppTranslation";
 import Footer from "@/components/Footer";
 import { clientLogger } from "@/utils/clientLogger";
+
+const TERMS_URL = "https://voxpages.com/terms";
 
 const CircleStep = ({ step, bg }: { step: number; bg: string }) => (
     <div className={styles.circleStep} style={{ backgroundColor: bg }}>
@@ -55,6 +58,14 @@ export default function Home() {
                         <p className={styles.trialInfo}>
                             {t("enjoy_free_trial", { amount: formattedAmount, currency: currency.toUpperCase() })}
                         </p>
+                        <Link
+                            href={TERMS_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.termsBelowTrial}
+                        >
+                            {t("footer.terms_and_conditions")}
+                        </Link>
                         {/* Steps Indicator */}
                         <div className={styles.stepsContainer}>
                             <div className={styles.stepsWrapper}>

@@ -17,13 +17,3 @@
   font-size: 0.875rem;
   color: var(--clr-white);
 }
-
-.termsLink {
-  font-size: 0.875rem;
-  color: var(--clr-white);
-  text-decoration: none;
-}
-
-.termsLink:hover {
-  text-decoration: underline;
-}

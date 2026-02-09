@@ -147,8 +147,24 @@
   margin-right: auto;
 }
 
+.termsBelowTrial {
+  display: block;
+  font-size: var(--text-xs);
+  text-align: center;
+  color: #6B7280;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  text-decoration: none;
+}
+.termsBelowTrial:hover {
+  text-decoration: underline;
+}
+
 @media (min-width: 768px) {
   .trialInfo {
+    font-size: var(--text-sm);
+  }
+  .termsBelowTrial {
     font-size: var(--text-sm);
   }
 }
