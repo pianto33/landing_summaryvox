@@ -68,8 +68,8 @@ const securityHeaders = [
       "img-src 'self' data: https: blob:",
       // Frames: Stripe, hCaptcha, Vercel Live (preview), Google Pay
       "frame-src https://js.stripe.com https://hooks.stripe.com https://www.facebook.com https://newassets.hcaptcha.com https://www.google.com https://vercel.live https://pay.google.com",
-      // Conexiones: Stripe, Meta Pixel, ipapi (ambos dominios), Vercel, hCaptcha, Google Pay
-      "connect-src 'self' https://api.stripe.com https://www.facebook.com https://connect.facebook.net https://ipapi.co https://api.ipapi.com https://www.google.com https://*.google.com https://vercel.live https://api.hcaptcha.com https://voxpages.com https://qa.voxpages.com https://pay.google.com",
+      // Conexiones: Stripe, Meta Pixel + CAPI, ipapi (ambos dominios), Vercel, hCaptcha, Google Pay
+      "connect-src 'self' https://api.stripe.com https://www.facebook.com https://connect.facebook.net https://*.datah04.com https://ipapi.co https://api.ipapi.com https://www.google.com https://*.google.com https://vercel.live https://api.hcaptcha.com https://voxpages.com https://qa.voxpages.com https://pay.google.com",
       "worker-src 'self' blob:",
     ].join('; '),
   },
