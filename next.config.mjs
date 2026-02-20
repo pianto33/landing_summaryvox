@@ -56,20 +56,20 @@ const securityHeaders = [
     key: 'Permissions-Policy',
     value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
   },
-  // Content Security Policy - Ajustado para Stripe, GTM, Google Ads y Vercel
+  // Content Security Policy - Ajustado para Stripe, Meta Pixel y Vercel
   {
     key: 'Content-Security-Policy',
     value: [
       "default-src 'self'",
-      // Scripts: Stripe, GTM, GA, Google Ads, Vercel Live (preview)
-      "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://js.stripe.com https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://vercel.live",
+      // Scripts: Stripe, Meta Pixel, Vercel Live (preview)
+      "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://js.stripe.com https://connect.facebook.net https://vercel.live",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: https: blob:",
-      // Frames: Stripe, GTM (para tags), hCaptcha, Vercel Live (preview), Google Pay
-      "frame-src https://js.stripe.com https://hooks.stripe.com https://www.googletagmanager.com https://newassets.hcaptcha.com https://www.google.com https://vercel.live https://pay.google.com",
-      // Conexiones: Stripe, GA, GTM, Google Ads, ipapi (ambos dominios), Vercel, hCaptcha, Google Pay
-      "connect-src 'self' https://api.stripe.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://ipapi.co https://api.ipapi.com https://www.google.com https://*.google.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://vercel.live https://api.hcaptcha.com https://voxpages.com https://qa.voxpages.com https://pay.google.com",
+      // Frames: Stripe, hCaptcha, Vercel Live (preview), Google Pay
+      "frame-src https://js.stripe.com https://hooks.stripe.com https://www.facebook.com https://newassets.hcaptcha.com https://www.google.com https://vercel.live https://pay.google.com",
+      // Conexiones: Stripe, Meta Pixel, ipapi (ambos dominios), Vercel, hCaptcha, Google Pay
+      "connect-src 'self' https://api.stripe.com https://www.facebook.com https://connect.facebook.net https://ipapi.co https://api.ipapi.com https://www.google.com https://*.google.com https://vercel.live https://api.hcaptcha.com https://voxpages.com https://qa.voxpages.com https://pay.google.com",
       "worker-src 'self' blob:",
     ].join('; '),
   },

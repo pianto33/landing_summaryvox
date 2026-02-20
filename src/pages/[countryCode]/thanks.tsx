@@ -10,7 +10,6 @@ import { extractTrackingParams, saveTrackingParams } from "@/utils/trackingParam
 import Button from "@/components/Button";
 import Header from "@/components/Header";
 import { logger } from "@/utils/logger";
-import Script from "next/script";
 import styles from "@/styles/Thanks.module.css";
 
 function ThanksPage() {
@@ -20,7 +19,6 @@ function ThanksPage() {
     const [magicLink, setMagicLink] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [useFallback, setUseFallback] = useState(false);
-    const [gclid, setGclid] = useState<string | null>(null);
     
     // Ref para prevenir múltiples ejecuciones del procesamiento de pago
     const paymentProcessedRef = useRef(false);
@@ -52,29 +50,46 @@ function ThanksPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // Solo una vez al montar
     
-    // Log de conversión de Google Ads (se ejecuta cuando tenemos amount/currency)
+    // Meta Pixel Purchase conversion (se ejecuta cuando tenemos amount/currency)
     useEffect(() => {
-        if (amount && currency) {
-            logger.info("Google Ads conversion script rendered", {
-                amount: (amount / 100).toFixed(2),
-                currency,
-                hasGclid: !!gclid,
-                conversionId: 'AW-17863886225/KlNkCP6duegbEJGLlcZC',
-            });
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [amount, currency]); // Se ejecuta cuando tenemos los datos de pago
+        if (!amount || !currency) return;
 
-    // Capturar y guardar parámetros de tracking (gclid, utm_*, etc.)
+        let cancelled = false;
+        let retryCount = 0;
+        const maxRetries = 50;
+        const value = amount / 100;
+        const cur = currency.toUpperCase();
+
+        const sendMetaConversion = () => {
+            if (cancelled) return;
+            if (typeof window !== 'undefined' && typeof (window as any).fbq === 'function') {
+                (window as any).fbq('track', 'Purchase', { value, currency: cur });
+                logger.info("Meta Pixel Purchase conversion sent", {
+                    value: value.toFixed(2),
+                    currency: cur,
+                });
+            } else {
+                retryCount++;
+                if (retryCount < maxRetries) {
+                    setTimeout(sendMetaConversion, 100);
+                } else {
+                    logger.warn("Meta Pixel (fbq) not available after retries");
+                }
+            }
+        };
+
+        sendMetaConversion();
+
+        return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [amount, currency]);
+
+    // Capturar y guardar parámetros de tracking (fbclid, utm_*, etc.)
     useEffect(() => {
         if (router.isReady) {
             const trackingParams = extractTrackingParams(router.query);
             if (Object.keys(trackingParams).length > 0) {
                 saveTrackingParams(trackingParams);
-            }
-            // Guardar gclid específicamente para el pixel de Google Ads
-            if (trackingParams.gclid) {
-                setGclid(trackingParams.gclid);
             }
         }
     }, [router.isReady, router.query]);
@@ -185,47 +200,6 @@ function ThanksPage() {
 
     return (
         <>
-            <Script id="google-ads-conversion" strategy="afterInteractive">
-                {`
-        (function() {
-          var retryCount = 0;
-          var maxRetries = 50; // 5 segundos máximo (50 * 100ms)
-          
-          function getGclidFromUrl() {
-            var urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('gclid');
-          }
-          
-          function sendConversion() {
-            if (typeof gtag !== 'undefined') {
-              var gclid = getGclidFromUrl();
-              var conversionData = {
-                'send_to': 'AW-17863886225/KlNkCP6duegbEJGLlcZC'
-              };
-              
-              ${amount ? `conversionData['value'] = ${(amount / 100).toFixed(2)};` : ""}
-              ${currency ? `conversionData['currency'] = '${currency}';` : ""}
-              
-              if (gclid) {
-                conversionData['gclid'] = gclid;
-              }
-              
-              gtag('event', 'conversion', conversionData);
-              console.log('Google Ads conversion sent successfully', conversionData);
-            } else {
-              retryCount++;
-              if (retryCount < maxRetries) {
-                console.warn('gtag not available, retrying in 100ms (attempt ' + retryCount + '/' + maxRetries + ')');
-                setTimeout(sendConversion, 100);
-              } else {
-                console.error('gtag failed to load after ' + maxRetries + ' attempts');
-              }
-            }
-          }
-          sendConversion();
-        })();
-      `}
-            </Script>
             <div className={styles.container}>
                 <Header />
                 <div className={styles.contentWrapper}>

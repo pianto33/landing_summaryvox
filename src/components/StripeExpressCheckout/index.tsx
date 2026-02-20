@@ -235,7 +235,7 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
           priceId,
           countryCode: router.query.countryCode,
           ip_address: ipAddress,
-          gclid: trackingParams.gclid || undefined,
+          fbclid: trackingParams.fbclid || undefined,
           // Datos de geolocalización para el webhook
           geo_country: geoData?.country || undefined,
           geo_state: geoData?.state || undefined,

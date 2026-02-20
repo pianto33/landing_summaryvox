@@ -17,7 +17,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       priceId, 
       countryCode, 
       ip_address, 
-      gclid,
+      fbclid,
       geo_country,
       geo_state,
       geo_city,
@@ -39,7 +39,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         priceId,
         countryCode: countryCode || "",
         ip_address: ip_address || "",
-        gclid: gclid || "",
+        fbclid: fbclid || "",
         // Datos de geolocalización
         geo_country: geo_country || "",
         geo_state: geo_state || "",
