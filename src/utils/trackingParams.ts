@@ -1,28 +1,28 @@
 /**
- * Utilidades para preservar parámetros de tracking (gclid, utm_*, etc.)
+ * Utilidades para preservar parámetros de tracking (fbclid, utm_*, etc.)
  * a través del flujo de pago
  */
 
 export const TRACKING_PARAMS = [
-  'gclid',        // Google Ads Click ID
   'fbclid',       // Facebook Click ID
   'utm_source',
   'utm_medium',
   'utm_campaign',
   'utm_term',
   'utm_content',
+  'utm_id',       // Meta Ad Set / Campaign ID
   'msclkid',      // Microsoft Ads Click ID
   'ttclid',       // TikTok Click ID
 ] as const;
 
 export interface TrackingParams {
-  gclid?: string;
   fbclid?: string;
   utm_source?: string;
   utm_medium?: string;
   utm_campaign?: string;
   utm_term?: string;
   utm_content?: string;
+  utm_id?: string;
   msclkid?: string;
   ttclid?: string;
 }

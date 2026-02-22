@@ -25,7 +25,8 @@ export {
   ipAddressSchema,
   currencySchema,
   amountSchema,
-  gclidSchema,
+  fbclidSchema,
+  utmParamSchema,
   localeSchema,
   
   // Schemas por endpoint

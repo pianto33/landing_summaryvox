@@ -2,13 +2,16 @@ export interface CreateSubscriptionPayload {
   customerId: string;
   priceId: string;
   ip_address?: string;
-  // Datos de geolocalización para metadata
   geo_country?: string;
   geo_state?: string;
   geo_city?: string;
   geo_postal?: string;
-  // Google Ads Click ID para tracking
-  gclid?: string;
-  // Stripe Radar Session ID para mejorar la detección de fraude
+  fbclid?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_term?: string;
+  utm_content?: string;
+  utm_id?: string;
   radar_session_id?: string;
 }

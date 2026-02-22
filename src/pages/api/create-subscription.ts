@@ -26,10 +26,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 geo_state, 
                 geo_city, 
                 geo_postal,
-                gclid,
+                fbclid,
+                utm_source,
+                utm_medium,
+                utm_campaign,
+                utm_term,
+                utm_content,
+                utm_id,
             } = validatedData;
             
-            // Construir metadata con toda la información disponible
             const metadata: Record<string, string> = {};
             
             if (ip_address) metadata.ip_address = ip_address;
@@ -37,7 +42,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
             if (geo_state) metadata.geo_state = geo_state;
             if (geo_city) metadata.geo_city = geo_city;
             if (geo_postal) metadata.geo_postal = geo_postal;
-            if (gclid) metadata.gclid = gclid;
+            if (fbclid) metadata.fbclid = fbclid;
+            if (utm_source) metadata.utm_source = utm_source;
+            if (utm_medium) metadata.utm_medium = utm_medium;
+            if (utm_campaign) metadata.utm_campaign = utm_campaign;
+            if (utm_term) metadata.utm_term = utm_term;
+            if (utm_content) metadata.utm_content = utm_content;
+            if (utm_id) metadata.utm_id = utm_id;
             
             const subscriptionData: any = {
                 customer: customerId,
@@ -67,7 +78,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                     hasIP: !!ip_address,
                     hasCountry: !!geo_country,
                     hasCity: !!geo_city,
-                    hasGclid: !!gclid,
+                    hasFbclid: !!fbclid,
                 });
             }
 

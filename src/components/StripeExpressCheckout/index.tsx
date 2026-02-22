@@ -141,7 +141,7 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
       }
     };
 
-    // Guardar parámetros de tracking (gclid, utm_*, etc.)
+    // Guardar parámetros de tracking (fbclid, utm_*, etc.)
     const trackingParams = extractTrackingParams(router.query);
     if (Object.keys(trackingParams).length > 0) {
       saveTrackingParams(trackingParams);
@@ -213,7 +213,7 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
         return;
       }
 
-      // Obtener parámetros de tracking (gclid, etc.)
+      // Obtener parámetros de tracking (fbclid, utm_*, etc.)
       const trackingParams = getTrackingParams();
 
       // NUEVO: Solo crear SetupIntent (rápido ~200ms)
@@ -236,7 +236,12 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
           countryCode: router.query.countryCode,
           ip_address: ipAddress,
           fbclid: trackingParams.fbclid || undefined,
-          // Datos de geolocalización para el webhook
+          utm_source: trackingParams.utm_source || undefined,
+          utm_medium: trackingParams.utm_medium || undefined,
+          utm_campaign: trackingParams.utm_campaign || undefined,
+          utm_term: trackingParams.utm_term || undefined,
+          utm_content: trackingParams.utm_content || undefined,
+          utm_id: trackingParams.utm_id || undefined,
           geo_country: geoData?.country || undefined,
           geo_state: geoData?.state || undefined,
           geo_city: geoData?.city || undefined,
@@ -275,7 +280,7 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
         });
       }
 
-      // Construir return_url con parámetros de tracking (gclid, utm_*, etc.)
+      // Construir return_url con parámetros de tracking preservados
       const baseReturnUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${router.query.countryCode}/thanks`;
       const returnUrl = addTrackingParams(baseReturnUrl, trackingParams);
 

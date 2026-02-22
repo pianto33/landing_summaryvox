@@ -99,11 +99,19 @@ export const amountSchema = z
   .max(99999999, 'Monto excede el máximo permitido'); // ~$999,999.99
 
 /**
- * Google Click ID (gclid)
+ * Facebook Click ID (fbclid)
  */
-export const gclidSchema = z
+export const fbclidSchema = z
   .string()
-  .max(200, 'GCLID demasiado largo')
+  .max(500, 'FBCLID demasiado largo')
+  .optional();
+
+/**
+ * UTM parameter genérico
+ */
+export const utmParamSchema = z
+  .string()
+  .max(500, 'UTM param demasiado largo')
   .optional();
 
 /**
@@ -140,7 +148,13 @@ export const createSubscriptionSchema = z.object({
   geo_state: cityStateSchema,
   geo_city: cityStateSchema,
   geo_postal: postalCodeSchema,
-  gclid: gclidSchema,
+  fbclid: fbclidSchema,
+  utm_source: utmParamSchema,
+  utm_medium: utmParamSchema,
+  utm_campaign: utmParamSchema,
+  utm_term: utmParamSchema,
+  utm_content: utmParamSchema,
+  utm_id: utmParamSchema,
   radar_session_id: z.string().max(200).optional(),
 });
 
@@ -156,7 +170,17 @@ export const createSetupIntentSchema = z.object({
   priceId: stripePriceIdSchema,
   countryCode: z.string().max(10).optional(),
   ip_address: ipAddressSchema,
-  gclid: gclidSchema,
+  fbclid: fbclidSchema,
+  utm_source: utmParamSchema,
+  utm_medium: utmParamSchema,
+  utm_campaign: utmParamSchema,
+  utm_term: utmParamSchema,
+  utm_content: utmParamSchema,
+  utm_id: utmParamSchema,
+  geo_country: countryCodeSchema,
+  geo_state: cityStateSchema,
+  geo_city: cityStateSchema,
+  geo_postal: postalCodeSchema,
 });
 
 export type CreateSetupIntentInput = z.infer<typeof createSetupIntentSchema>;

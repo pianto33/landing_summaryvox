@@ -80,7 +80,7 @@ function CardPaymentForm({ label, priceId, animateButton, amount, currency }: Pr
       }
     };
 
-    // Guardar parámetros de tracking (gclid, utm_*, etc.)
+    // Guardar parámetros de tracking (fbclid, utm_*, etc.)
     const trackingParams = extractTrackingParams(router.query);
     if (Object.keys(trackingParams).length > 0) {
       saveTrackingParams(trackingParams);
@@ -122,7 +122,7 @@ function CardPaymentForm({ label, priceId, animateButton, amount, currency }: Pr
       localStorage.setItem("paymentAmount", amount.toString());
       localStorage.setItem("paymentCurrency", currency);
 
-      // Obtener parámetros de tracking (gclid, etc.)
+      // Obtener parámetros de tracking (fbclid, utm_*, etc.)
       const trackingParams = getTrackingParams();
 
       // NUEVO: Solo crear SetupIntent (rápido ~200ms)
@@ -142,8 +142,13 @@ function CardPaymentForm({ label, priceId, animateButton, amount, currency }: Pr
           priceId,
           countryCode: router.query.countryCode,
           ip_address: ipAddress,
-          gclid: trackingParams.gclid || undefined,
-          // Datos de geolocalización para el webhook
+          fbclid: trackingParams.fbclid || undefined,
+          utm_source: trackingParams.utm_source || undefined,
+          utm_medium: trackingParams.utm_medium || undefined,
+          utm_campaign: trackingParams.utm_campaign || undefined,
+          utm_term: trackingParams.utm_term || undefined,
+          utm_content: trackingParams.utm_content || undefined,
+          utm_id: trackingParams.utm_id || undefined,
           geo_country: geoData?.country || undefined,
           geo_state: geoData?.state || undefined,
           geo_city: geoData?.city || undefined,
