@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "title": "VoxPages",
+    "title": "summaryvox",
     "description": "Storie che restano con te"
   },
-  "welcome_intro": "Benvenuto su <b>VoxPages</b>, la tua destinazione definitiva per riassunti di libri in formato audio. Goditi l'accesso illimitato a oltre 1000 riassunti di libri, raccomandazioni personalizzate, narrazione professionale e la capacità di imparare in movimento.",
+  "welcome_intro": "Benvenuto su <b>summaryvox</b>, la tua destinazione definitiva per riassunti di libri in formato audio. Goditi l'accesso illimitato a oltre 1000 riassunti di libri, raccomandazioni personalizzate, narrazione professionale e la capacità di imparare in movimento.",
   "online_activation": "Attivazione online",
   "accessIn3Steps": "Accedi in 3 semplici passaggi",
   "step1": "Iscriviti",
@@ -54,7 +54,7 @@
   "": "Dovrai effettuare l'accesso manualmente sulla piattaforma.",
   "loading": "Caricamento...",
   "footer": {
-    "company": "VoxPages Team",
+    "company": "summaryvox Team",
     "terms_and_conditions": "Termini e condizioni"
   }
 }

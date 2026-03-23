@@ -9,7 +9,7 @@ import { useAppTranslation } from "@/hooks/useAppTranslation";
 import Footer from "@/components/Footer";
 import { clientLogger } from "@/utils/clientLogger";
 
-const TERMS_URL = "https://voxpages.com/terms";
+const TERMS_URL = "https://summaryvox.com/terms";
 
 const CircleStep = ({ step, bg }: { step: number; bg: string }) => (
     <div className={styles.circleStep} style={{ backgroundColor: bg }}>

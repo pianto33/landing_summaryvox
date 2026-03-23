@@ -1,4 +1,4 @@
-# 🔒 Auditoría de Seguridad - SR Landing VoxPages
+# 🔒 Auditoría de Seguridad - SR Landing summaryvox
 
 **Fecha:** Diciembre 2024  
 **Versión:** 1.0
@@ -159,7 +159,7 @@ El endpoint ya no existe y no se expone información sensible.
 | `Content-Security-Policy` | Configurado para Stripe y GTM |
 
 **CORS configurado:**
-- Producción: Solo dominios de VoxPages (HTTPS)
+- Producción: Solo dominios de summaryvox (HTTPS)
 - Desarrollo: También localhost:3000/3001
 
 ---
@@ -389,4 +389,4 @@ describe('🔒 Security Tests', () => {
 
 ## 📞 Contacto
 
-Para reportar vulnerabilidades: security@voxpages.com
+Para reportar vulnerabilidades: security@summaryvox.com

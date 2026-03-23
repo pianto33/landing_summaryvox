@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAppTranslation } from "@/hooks/useAppTranslation";
 import { GENERAL, GTM_EVENTS } from "@/constants";
-import { generateAutoLoginToken } from "@/api/voxpages";
+import { generateAutoLoginToken } from "@/api/summaryvox";
 import { sendEvent } from "@/utils/gtm";
 import { useStripeData } from "@/hooks/useStripeData";
 import { logger } from "@/utils/logger";
@@ -18,7 +18,7 @@ function ErrorPage() {
   const router = useRouter();
   const { error } = router.query;
   const stripeData = useStripeData();
-  const [magicLink, setMagicLink] = useState("https://voxpages.com");
+  const [magicLink, setMagicLink] = useState("https://summaryvox.com");
   const isCreateUserError = error === "create_user";
   const isExistingSubscriptionError = error === "existing_subscription";
   
@@ -62,7 +62,7 @@ function ErrorPage() {
           const token = await generateAutoLoginToken(email, finalCustomerId, name);
           
           // Construir URL de auto-login para el botón
-          const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://voxpages.com";
+          const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://summaryvox.com";
           const link = `${platformUrl}/${lng}/auto-login?token=${encodeURIComponent(token)}`;
           setMagicLink(link);
         } catch (error) {

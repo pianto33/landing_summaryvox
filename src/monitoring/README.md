@@ -314,5 +314,5 @@ Script de testing disponible:
 ---
 
 **Última actualización:** 4 de Diciembre de 2025  
-**Mantenido por:** Sistema de Monitoreo VoxPages
+**Mantenido por:** Sistema de Monitoreo summaryvox
 

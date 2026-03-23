@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "title": "VoxPages",
+    "title": "summaryvox",
     "description": "Történetek, amelyek veled maradnak"
   },
-  "welcome_intro": "Üdvözöljük a <b>VoxPages</b>-en, a végső rendeltetési helyén a hangformátumú könyvösszefoglalóknak. Élvezze a korlátlan hozzáférést több mint 1000 könyvösszefoglalóhoz, személyre szabott ajánlásokhoz, professzionális narrációhoz és a mozgás közbeni tanulás képességéhez.",
+  "welcome_intro": "Üdvözöljük a <b>summaryvox</b>-en, a végső rendeltetési helyén a hangformátumú könyvösszefoglalóknak. Élvezze a korlátlan hozzáférést több mint 1000 könyvösszefoglalóhoz, személyre szabott ajánlásokhoz, professzionális narrációhoz és a mozgás közbeni tanulás képességéhez.",
   "online_activation": "Online aktiválás",
   "accessIn3Steps": "Hozzáférés 3 egyszerű lépésben",
   "step1": "Iratkozz fel",
@@ -54,7 +54,7 @@
   "": "Manuálisan kell bejelentkeznie a platformon.",
   "loading": "Betöltés...",
   "footer": {
-    "company": "VoxPages Team",
+    "company": "summaryvox Team",
     "terms_and_conditions": "Általános szerződési feltételek"
   }
 }

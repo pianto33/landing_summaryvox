@@ -4,11 +4,11 @@
 // CORS - Dominios Permitidos
 // ============================================================================
 const PRODUCTION_ORIGINS = [
-  'https://landing.voxpages.com',
-  'https://landing-qa.voxpages.com',
-  'https://voxpages.com',
-  'https://suscriptionlanding-git-qa-voxpages-projects.vercel.app',
-  'https://resume-book-git-qa-voxpages-projects.vercel.app',
+  'https://landing.summaryvox.com',
+  'https://landing-qa.summaryvox.com',
+  'https://summaryvox.com',
+  'https://suscriptionlanding-git-qa-summaryvox-projects.vercel.app',
+  'https://resume-book-git-qa-summaryvox-projects.vercel.app',
 ];
 
 const DEV_ORIGINS = [
@@ -69,7 +69,7 @@ const securityHeaders = [
       // Frames: Stripe, hCaptcha, Vercel Live (preview), Google Pay
       "frame-src https://js.stripe.com https://hooks.stripe.com https://www.facebook.com https://newassets.hcaptcha.com https://www.google.com https://vercel.live https://pay.google.com",
       // Conexiones: Stripe, Meta Pixel + CAPI, ipapi (ambos dominios), Vercel, hCaptcha, Google Pay
-      "connect-src 'self' https://api.stripe.com https://www.facebook.com https://connect.facebook.net https://*.datah04.com https://ipapi.co https://api.ipapi.com https://www.google.com https://*.google.com https://vercel.live https://api.hcaptcha.com https://voxpages.com https://qa.voxpages.com https://pay.google.com",
+      "connect-src 'self' https://api.stripe.com https://www.facebook.com https://connect.facebook.net https://*.datah04.com https://ipapi.co https://api.ipapi.com https://www.google.com https://*.google.com https://vercel.live https://api.hcaptcha.com https://summaryvox.com https://qa.summaryvox.com https://pay.google.com",
       "worker-src 'self' blob:",
     ].join('; '),
   },
@@ -113,7 +113,7 @@ const nextConfig = {
             // En producción, el middleware validará el origin específico
             // Aquí usamos el primer origen como default (Vercel maneja CORS dinámicamente)
             value: process.env.NODE_ENV === 'production' 
-              ? 'https://landing.voxpages.com'
+              ? 'https://landing.summaryvox.com'
               : '*',
           },
           {

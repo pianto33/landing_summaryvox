@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "title": "VoxPages",
+    "title": "summaryvox",
     "description": "Historie, które zostają z tobą"
   },
-  "welcome_intro": "Witamy w <b>VoxPages</b>, Twoim ostatecznym miejscu docelowym dla streszczeń książek w formacie audio. Ciesz się nieograniczonym dostępem do ponad 1000 streszczeń książek, spersonalizowanych rekomendacji, profesjonalnej narracji i możliwości nauki w ruchu.",
+  "welcome_intro": "Witamy w <b>summaryvox</b>, Twoim ostatecznym miejscu docelowym dla streszczeń książek w formacie audio. Ciesz się nieograniczonym dostępem do ponad 1000 streszczeń książek, spersonalizowanych rekomendacji, profesjonalnej narracji i możliwości nauki w ruchu.",
   "online_activation": "Aktywacja online",
   "accessIn3Steps": "Dostęp w 3 prostych krokach",
   "step1": "Subskrybuj",
@@ -54,7 +54,7 @@
   "": "Będziesz musiał zalogować się ręcznie na platformie.",
   "loading": "Ładowanie...",
   "footer": {
-    "company": "VoxPages Team",
+    "company": "summaryvox Team",
     "terms_and_conditions": "Regulamin i warunki"
   }
 }

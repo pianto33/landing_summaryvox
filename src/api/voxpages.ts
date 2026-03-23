@@ -1,6 +1,6 @@
 import { logger } from "@/utils/logger";
 
-const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://voxpages.com";
+const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://summaryvox.com";
 
 export interface GenerateTokenPayload {
   email: string;
@@ -16,7 +16,7 @@ export interface GenerateTokenResponse {
 }
 
 /**
- * Genera un token de auto-login para VoxPages
+ * Genera un token de auto-login para summaryvox
  * El sistema crea automáticamente el usuario si no existe
  */
 export const generateAutoLoginToken = async (
@@ -64,7 +64,7 @@ export interface GenerateUnsubscribeTokenResponse {
 }
 
 /**
- * Genera un token de desuscripción para VoxPages
+ * Genera un token de desuscripción para summaryvox
  */
 export const generateUnsubscribeToken = async (
   email: string,

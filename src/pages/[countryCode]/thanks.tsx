@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { useStripeData } from "@/hooks/useStripeData";
 import { useAppTranslation } from "@/hooks/useAppTranslation";
-import { generateAutoLoginToken } from "@/api/voxpages";
+import { generateAutoLoginToken } from "@/api/summaryvox";
 import { sendEvent } from "@/utils/gtm";
 import { GTM_EVENTS } from "@/constants";
 import { extractTrackingParams, saveTrackingParams } from "@/utils/trackingParams";
@@ -98,7 +98,7 @@ function ThanksPage() {
     useEffect(() => {
         const timeout = setTimeout(() => {
             if (!magicLink && isLoading) {
-                const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://voxpages.com";
+                const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://summaryvox.com";
                 const fallbackLink = `${platformUrl}/${lng}`;
                 setMagicLink(fallbackLink);
                 setIsLoading(false);
@@ -161,7 +161,7 @@ function ThanksPage() {
                 const token = await generateAutoLoginToken(email, finalCustomerId, name);
                 
                 // Construir URL de auto-login para el botón
-                const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://voxpages.com";
+                const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://summaryvox.com";
                 const link = `${platformUrl}/${lng}/auto-login?token=${encodeURIComponent(token)}`;
                 setMagicLink(link);
                 setIsLoading(false);
@@ -187,7 +187,7 @@ function ThanksPage() {
                 });
                 setIsLoading(false);
                 // En caso de error, establecer link de fallback en lugar de redirigir a error
-                const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://voxpages.com";
+                const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://summaryvox.com";
                 const fallbackLink = `${platformUrl}/${lng}`;
                 setMagicLink(fallbackLink);
                 setUseFallback(true);

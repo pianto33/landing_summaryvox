@@ -8,7 +8,7 @@ function Footer() {
 
   return (
     <footer className={styles.footer}>
-      <Image width={40} height={40} src={logo} alt="VoxPages" />
+      <Image width={40} height={40} src={logo} alt="summaryvox" />
       <div className={styles.footerLinks}>
         <span className={styles.company}>© {t("footer.company")}</span>
       </div>

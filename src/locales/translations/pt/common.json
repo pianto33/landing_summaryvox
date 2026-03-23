@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "title": "VoxPages",
+    "title": "summaryvox",
     "description": "Histórias que ficam contigo"
   },
-  "welcome_intro": "Bem-vindo ao <b>VoxPages</b>, o teu destino definitivo para resumos de livros em formato de áudio. Desfruta de acesso ilimitado a mais de 1000 resumos de livros, recomendações personalizadas, narração profissional e a capacidade de aprender em movimento.",
+  "welcome_intro": "Bem-vindo ao <b>summaryvox</b>, o teu destino definitivo para resumos de livros em formato de áudio. Desfruta de acesso ilimitado a mais de 1000 resumos de livros, recomendações personalizadas, narração profissional e a capacidade de aprender em movimento.",
   "online_activation": "Ativação online",
   "accessIn3Steps": "Acede em 3 passos simples",
   "step1": "Subscreve",
@@ -53,7 +53,7 @@
   "go_to_platform_manual": "Ir para o site",
   "loading": "A carregar...",
   "footer": {
-    "company": "VoxPages Team",
+    "company": "summaryvox Team",
     "terms_and_conditions": "Termos e condições"
   }
 }
