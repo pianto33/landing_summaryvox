@@ -5,7 +5,8 @@
   margin-inline: auto;
   text-align: center;
   overflow: hidden;
-  color: #3A3A3A;
+  color: var(--clr-text);
+  background: var(--clr-bg);
 
   & main {
     height: 100%;

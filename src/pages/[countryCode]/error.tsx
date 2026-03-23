@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAppTranslation } from "@/hooks/useAppTranslation";
 import { GENERAL, GTM_EVENTS } from "@/constants";
-import { generateAutoLoginToken } from "@/api/summaryvox";
+import { generateAutoLoginToken, buildLoginUrl } from "@/api/summaryvox";
 import { sendEvent } from "@/utils/gtm";
 import { useStripeData } from "@/hooks/useStripeData";
 import { logger } from "@/utils/logger";
@@ -51,20 +51,13 @@ function ErrorPage() {
   useEffect(() => {
     if (isExistingSubscriptionError || isCreateUserError) {
       const email = localStorage.getItem("userEmail") || "";
-      const name = localStorage.getItem("userName") || "";
       const customerId = localStorage.getItem("customerId") || "";
       if (!email) return;
 
       (async () => {
         try {
-          // Generar el token de auto-login
-          const finalCustomerId = customerId || `email_${email.replace(/[^a-zA-Z0-9]/g, "_")}`;
-          const token = await generateAutoLoginToken(email, finalCustomerId, name);
-          
-          // Construir URL de auto-login para el botón
-          const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://summaryvox.com";
-          const link = `${platformUrl}/${lng}/auto-login?token=${encodeURIComponent(token)}`;
-          setMagicLink(link);
+          const token = await generateAutoLoginToken(email);
+          setMagicLink(buildLoginUrl(token, lng));
         } catch (error) {
           logger.error("Error getting magic link", error, {
             email,

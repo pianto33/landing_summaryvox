@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from "react";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { useStripeData } from "@/hooks/useStripeData";
 import { useAppTranslation } from "@/hooks/useAppTranslation";
-import { generateAutoLoginToken } from "@/api/summaryvox";
+import { generateAutoLoginToken, buildLoginUrl } from "@/api/summaryvox";
 import { sendEvent } from "@/utils/gtm";
 import { GTM_EVENTS } from "@/constants";
 import { extractTrackingParams, saveTrackingParams } from "@/utils/trackingParams";
@@ -99,8 +99,7 @@ function ThanksPage() {
         const timeout = setTimeout(() => {
             if (!magicLink && isLoading) {
                 const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://summaryvox.com";
-                const fallbackLink = `${platformUrl}/${lng}`;
-                setMagicLink(fallbackLink);
+                setMagicLink(`${platformUrl}/${lng}`);
                 setIsLoading(false);
                 setUseFallback(true);
                 logger.warn("Magic link generation timeout, using fallback link", {
@@ -156,13 +155,8 @@ function ThanksPage() {
         (async () => {
             try {
                 setIsLoading(true);
-                // Generar el token de auto-login
-                const finalCustomerId = customerId || `email_${email.replace(/[^a-zA-Z0-9]/g, "_")}`;
-                const token = await generateAutoLoginToken(email, finalCustomerId, name);
-                
-                // Construir URL de auto-login para el botón
-                const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://summaryvox.com";
-                const link = `${platformUrl}/${lng}/auto-login?token=${encodeURIComponent(token)}`;
+                const token = await generateAutoLoginToken(email);
+                const link = buildLoginUrl(token, lng);
                 setMagicLink(link);
                 setIsLoading(false);
                 
@@ -186,10 +180,8 @@ function ThanksPage() {
                     errorType: (error as any)?.message || 'Unknown',
                 });
                 setIsLoading(false);
-                // En caso de error, establecer link de fallback en lugar de redirigir a error
                 const platformUrl = process.env.NEXT_PUBLIC_PLATFORM_URL || "https://summaryvox.com";
-                const fallbackLink = `${platformUrl}/${lng}`;
-                setMagicLink(fallbackLink);
+                setMagicLink(`${platformUrl}/${lng}`);
                 setUseFallback(true);
                 // NO marcar como procesado si falló - permitir reintento
                 paymentProcessedRef.current = false;

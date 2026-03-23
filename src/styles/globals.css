@@ -132,30 +132,44 @@ table {
 
 /* variables */
 :root {
-  /* colors */
-  --clr-primary: #75ff75;
+  /* brand colors — from logo */
+  --clr-teal: #1B6B64;
+  --clr-teal-dark: #0F3D38;
+  --clr-teal-light: #E8F5F3;
+  --clr-orange: #F26522;
+  --clr-orange-light: #FFF0E8;
+
+  /* semantic */
+  --clr-primary: #1B6B64;
+  --clr-accent: #F26522;
+  --clr-bg: #ffffff;
+  --clr-text: #1A3C3A;
+  --clr-text-light: #5A7A77;
+  --clr-text-muted: #8FA8A5;
+  --clr-border: #D0E0DD;
+
+  /* legacy compat */
   --clr-secondary: #1A1A1A;
-  --clr-secondary-light: #d4adf8;
   --clr-black: #03031c;
-  --clr-gray: #323232;
+  --clr-gray: #9CA3AF;
   --clr-white: #fff;
   --clr-yellow: #F7C948;
   --clr-error: #ff2424;
   --clr-whatsapp: #25d366;
-  --clr-gradient: linear-gradient(179deg, #ffffff 13.45%, #ffffff 33.89%);
+
   /* font-size */
-  --text-4xl: 2.25rem; /* 36px */
-  --text-3xl: 2rem; /* 32px */
-  --text-2xl: 1.75rem; /* 28px */
-  --text-xl: 1.5rem; /* 24px */
-  --text-lg: 1.25rem; /* 20px */
-  --text-base: 1rem; /* 16px */
-  --text-sm: 0.875rem; /* 14px */
-  --text-xs: 0.75rem; /* 12px */
+  --text-4xl: 2.25rem;
+  --text-3xl: 2rem;
+  --text-2xl: 1.75rem;
+  --text-xl: 1.5rem;
+  --text-lg: 1.25rem;
+  --text-base: 1rem;
+  --text-sm: 0.875rem;
+  --text-xs: 0.75rem;
 }
 
 /* base */
 body {
-  background: var(--clr-white) var(--clr-gradient);
-  color: var(--clr-white);
+  background: var(--clr-bg);
+  color: var(--clr-text);
 }
