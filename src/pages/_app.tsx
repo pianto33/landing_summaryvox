@@ -42,7 +42,7 @@ export default function App({ Component, pageProps }: AppProps) {
           t.src=v;s=b.getElementsByTagName(e)[0];
           s.parentNode.insertBefore(t,s)}(window, document,'script',
           'https://connect.facebook.net/en_US/fbevents.js');
-          fbq('init', '${process.env.NEXT_PUBLIC_META_PIXEL_ID}');
+          fbq('init', '925098830084735');
           fbq('track', 'PageView');
         `}
       </Script>
