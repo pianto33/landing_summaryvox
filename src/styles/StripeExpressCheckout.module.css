@@ -1,69 +1,50 @@
-.checkoutWrapper {
-  position: absolute;
-  inset: 0;
-  width: auto;
-  height: auto;
-  min-height: 100%;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
-}
-
 .checkoutContainer {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-
-  &.loaded {
-    width: 100%;
-    height: 100%;
-    pointer-events: auto;
-
-    .checkoutPage {
-      width: 100%;
-      height: 100%;
-      transform: scale(999);
-      transform-origin: 50% 10%;
+    position: absolute;
+    top: calc(-100vh + 65px + 45px );
+    opacity: 0;
+    overflow: hidden;
+  
+    &.loaded {
+      width: 200vw;
+      height: 100vh;
+      .checkoutPage {
+        width: 100vw;
+        transform: scale(100);
+        transform-origin: 50% 10%;
+      }
     }
   }
-}
-
-/* Texto/flechas decorativas: no roban el clic cuando Stripe ya está listo */
-.ctaNonInteractive {
-  pointer-events: none;
-  position: relative;
-  z-index: 0;
-}
-
-.error {
-  color: var(--clr-error);
-  font-size: var(--text-sm);
-}
-
-.arrow {
-  margin-inline-start: 1em;
-  display: flex;
-  gap: 0.2rem;
   
-  & > :nth-child(1),
-  & > :nth-child(2) {
-    animation: slideArrow 1.5s ease-in-out infinite;
+  .error {
+    color: var(--clr-error);
+    font-size: var(--text-sm);
   }
-  & > :nth-child(1) {
-    animation-delay: 0s;
+  
+  .arrow {
+    margin-inline-start: 1em;
+    display: flex;
+    gap: 0.2rem;
+    
+    & > :nth-child(1),
+    & > :nth-child(2) {
+      animation: slideArrow 1.5s ease-in-out infinite;
+    }
+    & > :nth-child(1) {
+      animation-delay: 0s;
+    }
+    & > :nth-child(2) {
+      animation-delay: 0.3s;
+    }
   }
-  & > :nth-child(2) {
-    animation-delay: 0.3s;
+  
+  @keyframes slideArrow {
+    0%, 100% {
+      transform: translateX(0);
+      opacity: 0.3;
+    }
+    50% {
+      transform: translateX(8px);
+      opacity: 1;
+    }
   }
-}
-
-@keyframes slideArrow {
-  0%, 100% {
-    transform: translateX(0);
-    opacity: 0.3;
-  }
-  50% {
-    transform: translateX(8px);
-    opacity: 1;
-  }
-}
+  

@@ -118,18 +118,17 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
   });
   const priceId = getPriceId(router);
   
-  // Detectar ambiente: link disponible solo en QA/desarrollo, never en producci?n
-//   const isProduction = process.env.NODE_ENV === 'production' && 
-//                        !process.env.NEXT_PUBLIC_BASE_URL?.includes('localhost') &&
-//                        !process.env.NEXT_PUBLIC_BASE_URL?.includes('qa') &&
-//                        !process.env.NEXT_PUBLIC_BASE_URL?.includes('staging');
-  
-//   // Detectar si estamos en QA para mostrar formulario de tarjeta
-//   const isQA = process.env.NEXT_PUBLIC_BASE_URL?.includes('qa') || 
-//                process.env.NEXT_PUBLIC_BASE_URL?.includes('staging') ||
-//                process.env.NEXT_PUBLIC_BASE_URL?.includes('localhost');
-const isProduction = true;
-const isQA = false;
+  // Igual que sr_landing-voxpages
+  const isProduction =
+    process.env.NODE_ENV === "production" &&
+    !process.env.NEXT_PUBLIC_BASE_URL?.includes("localhost") &&
+    !process.env.NEXT_PUBLIC_BASE_URL?.includes("qa") &&
+    !process.env.NEXT_PUBLIC_BASE_URL?.includes("staging");
+
+  const isQA =
+    process.env.NEXT_PUBLIC_BASE_URL?.includes("qa") ||
+    process.env.NEXT_PUBLIC_BASE_URL?.includes("staging") ||
+    process.env.NEXT_PUBLIC_BASE_URL?.includes("localhost");
   // Obtener la IP y datos de geolocalización
   useEffect(() => {
     const getIPAddress = async () => {
@@ -661,53 +660,46 @@ const isQA = false;
     <>
       <Button
         animate={animateButton}
-        endIcon={
-          <span className={isStripeReady ? styles.ctaNonInteractive : undefined}>
-            <ArrowSvg />
-          </span>
-        }
+        endIcon={<ArrowSvg />}
         onClick={handleButtonClick}
       >
-        <span className={isStripeReady ? styles.ctaNonInteractive : undefined}>
-          {label}
-        </span>
-        <div className={styles.checkoutWrapper}>
-          <div
-            className={`${styles.checkoutContainer} ${
-              isStripeReady ? styles.loaded : ""
-            }`}
-          >
-            <div id="checkout-page" className={styles.checkoutPage}>
-              <ExpressCheckoutElement
-                onClick={onClick}
-                onConfirm={onConfirm}
-                onReady={onReady}
-                onCancel={onCancel}
-                onLoadError={onLoadError}
-                options={{
-                  paymentMethods: {
-                    applePay: isProduction ? "always" : "never",
-                    googlePay: isProduction ? "always" : "never",
-                    link: isProduction ? "never" : "auto",
-                    amazonPay: "never",
-                    paypal: "never",
-                  },
-                  buttonType: {
-                    applePay: "subscribe",
-                    googlePay: "subscribe",
-                  },
-                  buttonTheme: {
-                    applePay: "black",
-                    googlePay: "black",
-                  },
-                  layout: {
-                    maxColumns: 1,
-                    overflow: "never",
-                  },
-                  buttonHeight: 55,
-                }}
-              />
-            </div>
+        {label}
+        <ArrowSvg />
+        <div
+          className={`${styles.checkoutContainer} ${
+            isStripeReady ? styles.loaded : ""
+          }`}
+        >
+          <div id="checkout-page" className={styles.checkoutPage}>
+            <ExpressCheckoutElement
+              onClick={onClick}
+              onConfirm={onConfirm}
+              onReady={onReady}
+              onCancel={onCancel}
+              onLoadError={onLoadError}
+              options={{
+                paymentMethods: {
+                  applePay: isProduction ? "always" : "never",
+                  googlePay: isProduction ? "always" : "never",
+                  link: isProduction ? "never" : "auto",
+                  amazonPay: "never",
+                  paypal: "never",
+                },
+                buttonType: {
+                  applePay: "subscribe",
+                  googlePay: "subscribe",
+                },
+                buttonTheme: {
+                  applePay: "black",
+                  googlePay: "black",
+                },
+                layout: {
+                  maxColumns: 1,
+                  overflow: "never",
+                },
+                buttonHeight: 55,
+              }}
+            />
           </div>
         </div>
       </Button>
