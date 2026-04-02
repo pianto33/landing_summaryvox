@@ -664,7 +664,6 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
         onClick={handleButtonClick}
       >
         {label}
-        <ArrowSvg />
         <div
           className={`${styles.checkoutContainer} ${
             isStripeReady ? styles.loaded : ""
