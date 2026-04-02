@@ -458,7 +458,9 @@ const isQA = false;
       link: Boolean(availablePaymentMethods?.link),
     };
     checkoutConsole("onReady", {
-      wallets,
+      applePay: wallets.applePay,
+      googlePay: wallets.googlePay,
+      link: wallets.link,
       loadTimeMs: readyTime - loadingState.renderTime,
       host: typeof window !== "undefined" ? window.location.host : null,
       origin: typeof window !== "undefined" ? window.location.origin : null,
@@ -659,10 +661,16 @@ const isQA = false;
     <>
       <Button
         animate={animateButton}
-        endIcon={<ArrowSvg />}
+        endIcon={
+          <span className={isStripeReady ? styles.ctaNonInteractive : undefined}>
+            <ArrowSvg />
+          </span>
+        }
         onClick={handleButtonClick}
       >
-        {label}
+        <span className={isStripeReady ? styles.ctaNonInteractive : undefined}>
+          {label}
+        </span>
         <div className={styles.checkoutWrapper}>
           <div
             className={`${styles.checkoutContainer} ${

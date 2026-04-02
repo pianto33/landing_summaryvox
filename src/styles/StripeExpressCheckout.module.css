@@ -1,11 +1,12 @@
 .checkoutWrapper {
   position: absolute;
-  bottom: 0;
-  left: -100vw;
-  width: 300vw;
-  height: 100vh;
+  inset: 0;
+  width: auto;
+  height: auto;
+  min-height: 100%;
   overflow: hidden;
   pointer-events: none;
+  z-index: 1;
 }
 
 .checkoutContainer {
@@ -25,6 +26,13 @@
       transform-origin: 50% 10%;
     }
   }
+}
+
+/* Texto/flechas decorativas: no roban el clic cuando Stripe ya está listo */
+.ctaNonInteractive {
+  pointer-events: none;
+  position: relative;
+  z-index: 0;
 }
 
 .error {
