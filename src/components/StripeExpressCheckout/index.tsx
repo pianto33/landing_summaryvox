@@ -61,6 +61,16 @@ const isBot = () => {
   return /bot|crawler|spider|lighthouse|vercel|prerender|headless/i.test(userAgent);
 };
 
+/** Consola: solo si NEXT_PUBLIC_CHECKOUT_DEBUG=true (evita ruido en prod). */
+const checkoutDebug =
+  typeof process !== "undefined" &&
+  process.env.NEXT_PUBLIC_CHECKOUT_DEBUG === "true";
+
+function checkoutConsole(label: string, payload: Record<string, unknown>) {
+  if (!checkoutDebug || isBot()) return;
+  console.info(`[SummaryVox][Checkout] ${label}`, payload);
+}
+
 const getPriceId = (router: NextRouter) => {
   // Primero verificar si hay un query param ?pr=test
   const priceParam = router.query.pr?.toString().toUpperCase();
@@ -182,11 +192,34 @@ const isQA = false;
 
   const onConfirm = async (e: StripeExpressCheckoutElementConfirmEvent) => {
     try {
+      if (!isBot()) {
+        checkoutConsole("onConfirm:inicio", {
+          priceId,
+          path: router.asPath,
+          hasBillingEmail: Boolean(e.billingDetails?.email),
+          hasBillingName: Boolean(e.billingDetails?.name),
+        });
+        clientLogger.info("Express onConfirm iniciado", {
+          context: "StripeExpressCheckout - onConfirm inicio",
+          priceId,
+          path: router.asPath,
+          hasBillingEmail: Boolean(e.billingDetails?.email),
+          hasBillingName: Boolean(e.billingDetails?.name),
+        });
+      }
+
       const email = e.billingDetails?.email || null;
       const name = e.billingDetails?.name || 
         (e.billingDetails?.email ? e.billingDetails.email.split("@")[0] : null);
 
       if (!email || !name) {
+        if (!isBot()) {
+          checkoutConsole("onConfirm:abort", { reason: "falta email o nombre" });
+          clientLogger.warn("Express onConfirm abortado: email o nombre", {
+            context: "StripeExpressCheckout - onConfirm validación",
+            priceId,
+          });
+        }
         const errorMsg = t("error.email");
         setErrorMessage(errorMsg);
         e.paymentFailed({ reason: "fail" });
@@ -250,10 +283,28 @@ const isQA = false;
         }),
       });
 
+      if (!isBot()) {
+        checkoutConsole("create-setup-intent:http", {
+          ok: response.ok,
+          status: response.status,
+          priceId,
+        });
+        clientLogger.info("create-setup-intent respuesta HTTP", {
+          context: "StripeExpressCheckout - create-setup-intent",
+          ok: response.ok,
+          status: response.status,
+          priceId,
+        });
+      }
+
       const data = await response.json();
       
       if (data.error) {
         if (!isBot()) {
+          checkoutConsole("create-setup-intent:body-error", {
+            error: data.error,
+            priceId,
+          });
           logger.warn("Error al crear SetupIntent", {
             error: data.error,
             email,
@@ -301,6 +352,11 @@ const isQA = false;
       if (error) {
         // Log específico para errores de confirmSetup
         if (!isBot()) {
+          checkoutConsole("confirmSetup:error", {
+            code: error.code,
+            type: error.type,
+            message: error.message,
+          });
           const logData = {
             context: 'StripeExpressCheckout - confirmSetup failed',
             stripeErrorCode: error.code,
@@ -319,6 +375,14 @@ const isQA = false;
           t("error.confirm_setup", { error: error.message || "Desconocido" })
         );
         e.paymentFailed({ reason: "fail" });
+      } else if (!isBot()) {
+        checkoutConsole("confirmSetup:ok", {
+          note: "Stripe no devolvió error; suele seguir redirección 3DS o return_url",
+        });
+        clientLogger.info("confirmSetup sin error de Stripe", {
+          context: "StripeExpressCheckout - confirmSetup ok",
+          priceId,
+        });
       }
     } catch (error: any) {
       if (!isBot()) {
@@ -341,12 +405,16 @@ const isQA = false;
   };
 
   const onClick = ({ resolve }: StripeExpressCheckoutElementClickEvent) => {
-    console.log('[StripeExpressCheckout] Google Pay/Apple Pay clickeado - abriendo modal');
+    checkoutConsole("onClick", {
+      priceId,
+      path: router.asPath,
+      host: typeof window !== "undefined" ? window.location.host : null,
+    });
+    console.log("[StripeExpressCheckout] Wallet clickeado (Express Checkout)");
     sendEvent(GTM_EVENTS.STRIPE_CLICK);
     
     // Solo logear si no es un bot
     if (!isBot()) {
-      // Log exitoso: el usuario S? tiene m?todo de pago y clicke?
       clientLogger.click('Google Pay / Apple Pay abriendo', {
         context: 'StripeExpressCheckout - onClick disparado',
         priceId,
@@ -375,10 +443,26 @@ const isQA = false;
         },
       },
     });
+
+    checkoutConsole("onClick:resolve", {
+      emailRequired: true,
+      billingAddressRequired: false,
+    });
   };
 
   const onReady = ({ availablePaymentMethods }: any) => {
     const readyTime = Date.now();
+    const wallets = {
+      applePay: Boolean(availablePaymentMethods?.applePay),
+      googlePay: Boolean(availablePaymentMethods?.googlePay),
+      link: Boolean(availablePaymentMethods?.link),
+    };
+    checkoutConsole("onReady", {
+      wallets,
+      loadTimeMs: readyTime - loadingState.renderTime,
+      host: typeof window !== "undefined" ? window.location.host : null,
+      origin: typeof window !== "undefined" ? window.location.origin : null,
+    });
     setisStripeReady(true);
     setLoadingState(prev => ({
       ...prev,
@@ -389,11 +473,12 @@ const isQA = false;
     
     // Solo logear si no es un bot
     if (!isBot()) {
-      // Log cuando el bot?n est? listo
       clientLogger.info('Express Checkout cargado correctamente', {
         context: 'StripeExpressCheckout - onReady',
         availablePaymentMethods,
+        wallets,
         loadTimeMs: readyTime - loadingState.renderTime,
+        host: typeof window !== "undefined" ? window.location.host : undefined,
         priceId,
         isProduction,
         isQA,
@@ -448,6 +533,12 @@ const isQA = false;
       userAgent,
     });
 
+    checkoutConsole("onLoadError", {
+      errorType,
+      errorMessage,
+      host: typeof window !== "undefined" ? window.location.host : null,
+    });
+
     // Si es error de conexión API de un usuario real, investigar
     if (errorType === 'api_connection_error') {
       logger.warn('Error de conexión con Stripe API de usuario real', {
@@ -462,13 +553,19 @@ const isQA = false;
   const handleButtonClick = () => {
     // Este onClick solo se ejecuta si el ExpressCheckoutElement NO captura el evento
     // (es decir, cuando NO hay Google Pay/Apple Pay disponible)
-    console.log('[StripeExpressCheckout] Click en bot?n (fallback - sin Google Pay)');
+    checkoutConsole("handleButtonClick", {
+      isStripeReady,
+      note: "Clic en capa del botón; el iframe de wallets no capturó el evento",
+    });
+    console.log(
+      "[StripeExpressCheckout] Clic en botón (no capturado por wallet / sin wallet en este navegador)"
+    );
     
     if (!isBot()) {
       sendEvent(GTM_EVENTS.STRIPE_CLICK_FAIL);
       
       const now = Date.now();
-      clientLogger.warn('Click en bot?n - Sin m?todo de pago disponible', {
+      clientLogger.warn('Click en botón — capa superior (diagnóstico wallet)', {
         context: 'StripeExpressCheckout - handleButtonClick',
         
         // Estado de Stripe
@@ -521,11 +618,18 @@ const isQA = false;
         path: router.asPath,
         baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
         nodeEnv: process.env.NODE_ENV,
+        checkoutDebugEnabled: checkoutDebug,
         paymentMethodsConfig: {
           applePay: isProduction ? "always" : "never",
           googlePay: isProduction ? "always" : "never",
           link: isProduction ? "never" : "auto",
         },
+      });
+      checkoutConsole("mount", {
+        priceId,
+        path: router.asPath,
+        host: typeof window !== "undefined" ? window.location.host : null,
+        checkoutDebugEnabled: checkoutDebug,
       });
     }
   }, []); // Solo una vez al montar
