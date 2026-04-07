@@ -62,14 +62,14 @@ const securityHeaders = [
     value: [
       "default-src 'self'",
       // Scripts: Stripe, Meta Pixel, Microsoft Clarity, Vercel Live (preview)
-      "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://js.stripe.com https://connect.facebook.net https://www.clarity.ms https://vercel.live https://va.vercel-scripts.com",
+      "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://js.stripe.com https://connect.facebook.net https://www.clarity.ms https://*.clarity.ms https://vercel.live https://va.vercel-scripts.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: https: blob:",
       // Frames: Stripe, hCaptcha, Vercel Live (preview), Google Pay
       "frame-src https://js.stripe.com https://hooks.stripe.com https://www.facebook.com https://newassets.hcaptcha.com https://www.google.com https://vercel.live https://pay.google.com",
       // Conexiones: Stripe, Meta Pixel + CAPI, ipapi (ambos dominios), Clarity, Vercel, hCaptcha, Google Pay
-      "connect-src 'self' https://api.stripe.com https://www.facebook.com https://connect.facebook.net https://*.datah04.com https://ipapi.co https://api.ipapi.com https://www.clarity.ms https://www.google.com https://*.google.com https://vercel.live https://va.vercel-scripts.com https://api.hcaptcha.com https://summaryvox.com https://qa.summaryvox.com https://pay.google.com",
+      "connect-src 'self' https://api.stripe.com https://www.facebook.com https://connect.facebook.net https://*.datah04.com https://ipapi.co https://api.ipapi.com https://www.clarity.ms https://*.clarity.ms https://www.google.com https://*.google.com https://vercel.live https://va.vercel-scripts.com https://api.hcaptcha.com https://summaryvox.com https://qa.summaryvox.com https://pay.google.com",
       "worker-src 'self' blob:",
     ].join('; '),
   },
