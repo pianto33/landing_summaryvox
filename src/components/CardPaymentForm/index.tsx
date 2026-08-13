@@ -273,9 +273,9 @@ function CardPaymentForm({ label, priceId, animateButton, amount, currency }: Pr
         clientSecret: data.clientSecret,
         confirmParams: {
           return_url: returnUrl,
-          ...(radarSessionId && {
-            payment_method_data: radarPaymentMethodData(radarSessionId),
-          }),
+          ...(radarSessionId
+            ? { payment_method_data: radarPaymentMethodData(radarSessionId) }
+            : {}),
         },
       });
 

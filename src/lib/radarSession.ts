@@ -18,8 +18,22 @@ export async function createRadarSessionId(
   }
 }
 
+/**
+ * Forma que Stripe.js tipa en confirmSetup.payment_method_data.
+ * radar_options existe en la API, pero no en esos types.
+ */
+type ConfirmSetupPaymentMethodData = {
+  billing_details?: Record<string, unknown>;
+  allow_redisplay?: "always" | "limited" | "unspecified";
+  metadata?: Record<string, string>;
+};
+
 /** confirmSetup: Radar Session se adjunta al Payment Method (cobros off-session). */
-export function radarPaymentMethodData(radarSessionId?: string) {
+export function radarPaymentMethodData(
+  radarSessionId?: string
+): ConfirmSetupPaymentMethodData {
   if (!radarSessionId) return {};
-  return { radar_options: { session: radarSessionId } };
+  return {
+    radar_options: { session: radarSessionId },
+  } as ConfirmSetupPaymentMethodData;
 }
