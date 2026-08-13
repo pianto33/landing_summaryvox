@@ -9,6 +9,10 @@ import { apiFetch } from "@/utils/apiFetch";
 import { fetchIPData } from "@/services/trackingService";
 import { extractTrackingParams, saveTrackingParams, addTrackingParams, getTrackingParams } from "@/utils/trackingParams";
 import Button from "@/components/Button";
+import {
+  createRadarSessionId,
+  radarPaymentMethodData,
+} from "@/lib/radarSession";
 import styles from "@/styles/CardPaymentForm.module.css";
 
 interface Props {
@@ -262,11 +266,16 @@ function CardPaymentForm({ label, priceId, animateButton, amount, currency }: Pr
         countryCode: router.query.countryCode,
       });
 
+      const radarSessionId = await createRadarSessionId(stripe);
+
       const { error } = await stripe.confirmSetup({
         elements,
         clientSecret: data.clientSecret,
         confirmParams: {
           return_url: returnUrl,
+          ...(radarSessionId && {
+            payment_method_data: radarPaymentMethodData(radarSessionId),
+          }),
         },
       });
 

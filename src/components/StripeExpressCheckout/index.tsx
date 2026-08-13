@@ -27,6 +27,10 @@ import {
 } from "@/utils/trackingParams";
 import { forceIframeRecomposite } from "@/utils/forceIframeRecomposite";
 import Button from "@/components/Button";
+import {
+  createRadarSessionId,
+  radarPaymentMethodData,
+} from "@/lib/radarSession";
 import styles from "@/styles/StripeExpressCheckout.module.css";
 
 interface Props {
@@ -584,6 +588,8 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
       const baseReturnUrl = `${getCheckoutBaseUrl()}/${router.query.countryCode}/thanks`;
       const returnUrl = addTrackingParams(baseReturnUrl, trackingParams);
 
+      const radarSessionId = await createRadarSessionId(stripe);
+
       // Confirmar y redirigir DIRECTO a thanks
       const { error } = await stripe.confirmSetup({
         elements,
@@ -593,6 +599,7 @@ function StripeExpressCheckout({ label, animateButton, amount, currency }: Props
           return_url: returnUrl,
           payment_method_data: {
             billing_details: billingDetails,
+            ...radarPaymentMethodData(radarSessionId),
           },
         },
       });
