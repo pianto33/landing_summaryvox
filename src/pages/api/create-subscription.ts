@@ -5,6 +5,7 @@ import { withRateLimitAndMonitoring } from "@/lib/rate-limit";
 import { validateWarn, createSubscriptionSchema } from "@/lib/validation";
 import { getRequestContext, compactContext } from "@/utils/serverContext";
 import { isBillableSubscriptionStatus } from "@/lib/stripeSubscriptions";
+import { freeTrialRadarMetadata } from "@/lib/stripeFreeTrialRadar";
 
 const STRIPE_PRIVATE_KEY = process.env.STRIPE_PRIVATE_KEY ?? "";
 const stripe = new Stripe(STRIPE_PRIVATE_KEY);
@@ -75,7 +76,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
                 });
             }
             
-            const metadata: Record<string, string> = {};
+            const metadata: Record<string, string> = {
+                ...freeTrialRadarMetadata(),
+            };
             
             if (ip_address) metadata.ip_address = ip_address;
             if (geo_country) metadata.geo_country = geo_country;

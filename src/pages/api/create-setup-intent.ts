@@ -9,6 +9,7 @@ import {
   findCheckoutBlockingSubscriptionForEmail,
   isBillableSubscriptionStatus,
 } from "@/lib/stripeSubscriptions";
+import { freeTrialRadarMetadata } from "@/lib/stripeFreeTrialRadar";
 
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY ?? "");
 
@@ -135,6 +136,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       geo_state: geo_state || "",
       geo_city: geo_city || "",
       geo_postal: geo_postal || "",
+      ...freeTrialRadarMetadata(),
     };
 
     if (fbclid) metadata.fbclid = fbclid;
@@ -224,6 +226,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       billing_postal: billing_postal || null,
       billing_state: billing_state || null,
       geo_country: geo_country || null,
+      is_free_trial: true,
     });
 
     return res.status(200).json({
