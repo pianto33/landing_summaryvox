@@ -25,14 +25,8 @@ function Layout({ children }: Props) {
   return (
     <>
       <Head>
-        <title>{t("metadata.title")}</title>
         <meta name="description" content={t("metadata.description")} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="generator" content="VoxPages" />
-        <meta name="applicationName" content="VoxPages" />
-        <meta name="author" content="Voxpages Team" />
-        <meta name="creator" content="Voxpages Team" />
-        <meta name="publisher" content="Voxpages Team" />
         <link rel="icon" href="/favicon.png" />
         <link rel="icon" type="image/png" href="/favicon.png" />
         <link rel="shortcut icon" href="/favicon.png" />
